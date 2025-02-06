@@ -1,0 +1,259 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #4070f4;
+}
+
+.container{
+ position: relative;
+ max-width: 900px;
+ width: 100%;
+ border-radius: 6px;
+ padding: 30px;
+ margin: 0 15px;
+background-color: #fff;
+
+
+}
+
+.container header{
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+
+}
+
+.container form{
+    position: relative;
+    min-height: 490px;
+    background-color: #f2f2f2;
+}
+
+
+
+.container form .details{
+    margin-top: 10px;
+}
+
+h1{
+    font-size: 16px;
+    font-weight: 500;
+    margin: 6px 0;
+}
+
+.container form .fields{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+form .fields .input-field{
+    display: flex;
+    width: calc(100% /3 -15px);
+    flex-direction: column;
+    margin: 4px 0;
+}
+
+.input-field label{
+
+    font-size: 12px;
+    font-weight: 500;
+    color: #2e2e2e;
+}
+
+.input-field input{
+   height: 42px;
+   margin: 4px 0;
+   padding: 0 15px;
+   outline: none;
+   border: 1px solid #aaa;
+   border-radius: 5px;
+   font-size: 14px;
+   font-weight: 400;
+   color: #333;
+
+}
+
+.status{
+    margin-left: 230px;
+    margin-top: -15px;
+}
+
+
+.container form .type{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+form .type .input-type{
+    display: flex;
+    width: calc(100% /3 -15px);
+    flex-direction: column;
+    margin: 4px 0;
+   
+}
+
+.type .input-type label{
+  
+    font-size: 15px;
+    font-weight: 500;
+    color: #2e2e2e;
+    margin: 6px 0;
+   
+}
+
+.input-type input{
+   height: 42px;
+   margin: 10px 0;
+   padding: 0 40px;
+   outline: none;
+   border: 1px solid #aaa;
+   border-radius: 5px;
+   font-size: 14px;
+   font-weight: 500;
+   color: #333;
+
+}
+
+
+
+.container form .place{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+form .place .input-place{
+    display: flex;
+    width: calc(100% /5 -15px);
+    flex-direction: column;
+    margin: 4px 0;
+}
+
+.input-place label{
+
+    font-size: 15px;
+    font-weight: 500;
+    color: #2e2e2e;
+    margin: 6px 0;
+}
+
+.input-place input{
+   height: 42px;
+   margin: 4px 0;
+   padding: 0 15px;
+   outline: none;
+   border: 1px solid #aaa;
+   border-radius: 5px;
+   font-size: 14px;
+   font-weight: 400;
+   color: #333;
+  
+   
+
+}
+
+.container form .home {
+    display: flex;
+    align-items: flex-start; /* Align items to the start */
+    justify-content: space-between; /* Space between input fields */
+   
+}
+
+form .home .input-home {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% / 2- 30px); /* Adjust width for 4 input fields */
+    margin: 5px; /* Consistent margin around each input */
+}
+
+.input-home label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #2e2e2e;
+}
+
+.input-home input {
+    height: 42px;
+    margin: 4px 0;
+    padding: 0 15px;
+    outline: none;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+
+
+h2{
+    font-size: 16px;
+    font-weight: 500;
+    margin: 6px 0;
+}
+
+
+.container form button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    max-width: 200px;
+    width: 100%;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 5px;
+    margin: 25px 0;
+    background-color: #4070f4;
+    transition: all 0.3s linear;
+    cursor: pointer;
+}
+
+form button:hover{
+    background-color: #265df2;
+
+}
+
+form button i{
+    margin: 0 6px;
+}
+
+
+
+
+h3{
+    font-size: 16px;
+    font-weight: 500;
+    margin: 6px 0;
+}
+  
+.container form button, .backBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    max-width: 200px;
+    width: 100%;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 5px;
+    margin: 25px 0;
+    background-color: #4070f4;
+    transition: all 0.3s linear;
+    cursor: pointer;
+    margin-left: 640px;
+}
