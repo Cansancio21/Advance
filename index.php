@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advance</title>
     <link rel="stylesheet" href="style.css">
+
+    <script>
+        function toggleOthersField() {
+            var status = document.getElementById("civil_status").value;
+            var othersField = document.getElementById("others_input");
+            if (status === "Others") {
+                othersField.style.display = "block";
+            } else {
+                othersField.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
    
 <div class="container">
-    <header>Information</header>
+    <header>InFor<span>MaTion</span></header>
 
     <form action="" method="POST">
         <div class="form first">
@@ -41,19 +53,21 @@
 <input type="radio" id="Female" name="sex" value="Female" required>
 <label for="Female">Female</label>
 
-                 <div class="status">
-                <label for="civilStatus">Civil Status:</label> 
-                <select id="civilStatus" name="civil_status" required>
-                    <option value="">Select Civil Status</option>
-                    <option value="Single">Single</option>
-                    <option value="Married">Married</option>
-                    <option value="Widowed">Widowed</option>
-                    <option value="Separated">Legally Separated</option>
-                    <option value="Others">Others</option>
-                </select>
-                <input type="text" id="othersInput" name="other_civil_status" placeholder="Specify Others" style="display: none;">
-            </div>
+<div class="Select">
+    <label for="civil_status">Civil Status:</label>
+    <select id="civil_status" name="civil_status" onchange="toggleOthersField()">
+        <option value="">--Select--</option>
+        <option value="Single">Single</option>
+        <option value="Married">Married</option>
+        <option value="Widowed">Widowed</option>
+        <option value="Divorced">Divorced</option>
+        <option value="Separated">Separated</option>
+        <option value="Others">Others</option>
+    </select>
 
+    <input type="text" id="others_input" name="others" placeholder="Please specify" style="display: none;">
+
+      </div>
             <div class="type">
                 <div class="input-type">
                     <label>Tax Identification Number</label>
@@ -94,21 +108,21 @@
                     <label>Brgy/District/Locality</label>
                     <input type="text" name="brgy" placeholder="Enter Brgy" >
                 </div>
-                <div class="input-place">
+                <div class="input-home">
                     <label>City/Municipality</label>
                     <input type="text" name="city" placeholder="Enter City" >
                 </div>
-                <div class="input-place">
+                <div class="input-home">
                     <label>Province</label>
                     <input type="text" name="province" placeholder="Province" >
                 </div>
-                <div class="input-place">
+                <div class="input-home">
                     <label>Zip Code</label>
                     <input type="text" name="zip_code" placeholder="Zip Code" >
                 </div>
             </div>
               <div class=country>
-              <label>country</label>
+              <label>Country</label>
             <select name="country" id="country" required>
                 <option value=""disabled selected>select</option>
             <?php
@@ -149,15 +163,15 @@
                     <label>Brgy/District/Locality</label>
                     <input type="text" name="brgy" placeholder="Enter Brgy"  required>
                 </div>
-                <div class="input-place">
+                <div class="input-home">
                     <label>City/Municipality</label>
                     <input type="text" name="city" placeholder="Enter City"  required>
                 </div>
-                <div class="input-place">
+                <div class="input-home">
                     <label>Province</label>
                     <input type="text" name="province" placeholder="Province"  required>
                 </div>
-                <div class="input-place">
+                <div class="input-home">
                     <label>Zip Code</label>
                     <input type="text" name="zip_code" placeholder="Zip Code"  required>
                 </div>
@@ -167,7 +181,7 @@
             </div>
             
             <div class=country>
-              <label>country</label>
+              <label>Country</label>
             <select name="country" id="country" required>
                 <option value=""disabled selected>select</option>
             <?php
@@ -235,7 +249,7 @@
             <div class="buttons">
                
                 <button type="submit" class="subBtn">
-                    <span class="btnText">Submit</span>
+                    <div class="btnText">Submit</div>
                 </button>
             </div>
         </div>

@@ -25,12 +25,30 @@ background-color: #fff;
 
 }
 
-.container header{
-    font-size: 20px;
+.container header {
+    font-size: 25px;
     font-weight: 600;
-    color: #333;
-
+    color: #bd1919; 
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
+
+.container header:hover {
+    color: #ff0000; 
+    transform: scale(1.05); 
+    cursor: pointer;
+}
+
+.container span {
+    color: #007bff; 
+    transition: color 0.3s ease-in-out;
+}
+
+.container span:hover {
+    color: #0056b3; 
+    text-decoration: underline; 
+    cursor: pointer;
+}
+
 
 .container form{
     position: relative;
@@ -200,39 +218,42 @@ form .place .input-place{
 
 }
 
-.container form .home {
+
+.container form .home{
     display: flex;
-    align-items: flex-start; /* Align items to the start */
-    justify-content: space-between; /* Space between input fields */
-   
+    align-items: center;
+    justify-content: space-between;
 }
 
-form .home .input-home {
+form .home .input-home{
     display: flex;
+    width: calc(100% /5 -15px);
     flex-direction: column;
-    width: calc(100% / 2- 30px); /* Adjust width for 4 input fields */
-    margin: 5px; /* Consistent margin around each input */
+    margin: 4px 0;
 }
 
-.input-home label {
-    font-size: 12px;
+.input-home label{
+
+    font-size: 15px;
     font-weight: 500;
     color: #2e2e2e;
+    margin: 6px 0;
 }
 
-.input-home input {
-    height: 42px;
-    margin: 4px 0;
-    padding: 0 15px;
-    outline: none;
-    border: 1px solid #aaa;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: 400;
-    color: #333;
-    box-sizing: border-box; /* Include padding and border in width */
-}
+.input-home input{
+   height: 42px;
+   margin: 4px 0;
+   padding: 0 15px;
+   outline: none;
+   border: 1px solid #aaa;
+   border-radius: 5px;
+   font-size: 14px;
+   font-weight: 400;
+   color: #333;
+  
+   
 
+}
 
 
 h2{
@@ -342,3 +363,30 @@ h3{
     background-color: #f0f0f0;
   }
 
+
+
+  
+.Select{
+    margin-left: 230px;
+    margin-top: -17px;
+}
+
+
+.Select input {
+    margin-top: -20px;  
+    display: none;  
+    margin-left: 180px;  
+}
+
+
+.btnText {
+    font-size: 20px;
+    transition: all 0.3s ease-in-out; 
+}
+
+.btnText:hover {
+    color: #ff0000; 
+    font-size: 22px; 
+    font-weight: bold; 
+    cursor: pointer; 
+}
