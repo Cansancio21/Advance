@@ -15,3 +15,17 @@ const form = document.querySelector("form"),
         })
 
         nextBtn.addEventListener("click", ()=>   form.classList.remove('secActive'));
+
+
+
+
+        civilStatusSelect.addEventListener("change", function() {
+            if (this.value === "Others") {
+                othersInput.style.display = "block";
+                othersInput.setAttribute("required", "true");
+            } else {
+                othersInput.style.display = "none";
+                othersInput.removeAttribute("required");
+            }
+        });
+    

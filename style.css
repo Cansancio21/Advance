@@ -126,6 +126,43 @@ form .type .input-type{
 }
 
 
+.container form .number{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+form .number .input-number{
+    display: flex;
+    width: calc(100% /3 -15px);
+    flex-direction: column;
+    margin: 4px 0;
+   
+}
+
+.number .input-number label{
+  
+    font-size: 15px;
+    font-weight: 500;
+    color: #2e2e2e;
+    margin: 6px 0;
+   
+}
+
+.input-number input{
+   height: 42px;
+   margin: 10px 0;
+   padding: 0 40px;
+   outline: none;
+   border: 1px solid #aaa;
+   border-radius: 5px;
+   font-size: 14px;
+   font-weight: 500;
+   color: #333;
+
+}
+
+
 
 .container form .place{
     display: flex;
@@ -241,6 +278,26 @@ h3{
 }
   
 .container form button, .backBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    max-width: 200px;
+    width: 100%;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 5px;
+    margin: 25px 0;
+    background-color: #4070f4;
+    transition: all 0.3s linear;
+    cursor: pointer;
+    margin-left: 640px;
+}
+
+
+
+.container form button, .subBtn{
     display: flex;
     align-items: center;
     justify-content: center;
