@@ -118,7 +118,7 @@
                 </div>
                 <div class="input-home">
                     <label>Zip Code</label>
-                    <input type="text" name="zip_code" placeholder="Zip Code" >
+                    <input type="text" name="zip_code" placeholder="Zip Code"  required>
                 </div>
             </div>
               <div class=country>
@@ -208,7 +208,7 @@
        </div>
            <div class="input-number">
     <label>Telephone Number</label>
-    <input type="text" name=telephone_id" placeholder="Enter Telephone Number" required pattern="[0-9]+" title="Must accept Numbers Only">
+    <input type="text" name="telephone_id" placeholder="Enter Telephone Number" required pattern="[0-9]+" title="Must accept Numbers Only">
          </div>
             </div>
 
@@ -263,7 +263,7 @@
 
 <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Get form input data
+        
         $lastName = $_POST['last_name'] ?? "";
         $firstName = $_POST['first_name'] ?? "";
         $middleInitial = $_POST['middle_initial'] ?? "";
@@ -273,7 +273,8 @@
         $mobilePhone = $_POST['mobile_phone'] ?? ""; 
         $telephoneNumber = $_POST['telephone_number'] ?? "";
         $email = $_POST['email'] ?? "";
-
+        $Zipcode = $_POST['zip_code'] ?? "";
+        
         $fatherLastName = $_POST['father_last_name'] ?? "";
         $fatherFirstName = $_POST['father_first_name'] ?? "";
         $fatherMiddleName = $_POST['father_middle_name'] ?? "";
@@ -291,6 +292,11 @@
         function validatePhoneNumber($phone) {
             return preg_match("/^[0-9]{10,15}$/", $phone);
         }
+
+        function validateZipcode($Zipcode) {
+            return preg_match("/^[0-9]{10,15}$/", $Zipcode);
+        }
+
 
         function validateNumber($number) {
             return preg_match("/^[0-9]+$/", $number);
@@ -335,6 +341,10 @@
         }
         if (!empty($telephoneNumber) && !validatePhoneNumber($telephoneNumber)) {
             $errors[] = "Telephone number must be 10-15 digits long and contain only numbers.";
+        }
+
+        if (!empty($Zipcode) && !validateZipcode($Zipcode)) {
+            $errors[] = "Zipcode Allowed Numbers Only.";
         }
 
         if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
