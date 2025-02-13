@@ -16,6 +16,20 @@
                 othersField.style.display = "none";
             }
         }
+
+        function calculateAge() {
+            var dob = document.getElementById("date_of_birth").value;
+            if (dob) {
+                var dobDate = new Date(dob);
+                var today = new Date();
+                var age = today.getFullYear() - dobDate.getFullYear();
+                var m = today.getMonth() - dobDate.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) {
+                    age--;
+                }
+                document.getElementById("age").value = age;
+            }
+        }
     </script>
 </head>
 <body>
@@ -23,7 +37,7 @@
 <div class="container">
     <header>InFor<span>MaTion</span></header>
 
-    <form action="" method="POST">
+    <form action="submit.php" method="POST">
         <div class="form first">
             <div class="details personal">
               <h1>Personal Data</h1>
@@ -121,9 +135,10 @@
                     <input type="text" name="zip_code" placeholder="Zip Code"  required>
                 </div>
             </div>
-              <div class=country>
+ 
+            <div class=country>
               <label>Country</label>
-            <select name="country" id="country" required>
+            <select name="birthcountry" id="country" required>
                 <option value=""disabled selected>select</option>
             <?php
 
@@ -176,10 +191,8 @@
                     <input type="text" name="zip_code" placeholder="Zip Code"  required>
                 </div>
 
-                
-
             </div>
-            
+
             <div class=country>
               <label>Country</label>
             <select name="country" id="country" required>
@@ -196,11 +209,12 @@
         </select>
               </div>
             
+         
             
             <div class="number">
             <div class="input-number">
              <label>Mobile/Cellphone Number</label>
-             <input type="text" name="Mobile_id" placeholder="Enter Mobile Number" required pattern="[0-9]+" title="Must accept Numbers Only">
+             <input type="text" name="mobile_phone" id="mobile_phone" required><br>
             </div>
             <div class="input-number">
     <label>E-mail Address</label>
@@ -208,7 +222,7 @@
        </div>
            <div class="input-number">
     <label>Telephone Number</label>
-    <input type="text" name="telephone_id" placeholder="Enter Telephone Number" required pattern="[0-9]+" title="Must accept Numbers Only">
+    <input type="text" name="telephone_number" id="telephone_number" required><br>
          </div>
             </div>
 
