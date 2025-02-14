@@ -12,7 +12,7 @@ const form = document.querySelector("form"),
                 }
             }) 
 
-        })
+        });
 
         nextBtn.addEventListener("click", ()=>   form.classList.remove('secActive'));
 

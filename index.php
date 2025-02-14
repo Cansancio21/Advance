@@ -45,7 +45,7 @@
             <div class="fields">
                 <div class="input-field">
                     <label>Last Name</label>
-                    <input type="text" name="last_name" placeholder="Enter Last Name" required>
+                    <input type="text" name="last_name" placeholder="Enter Last Name" required pattern="[A-Za-z ]+" title="Only letters are allowed">
                 </div>
                 <div class="input-field">
                     <label>First Name</label>
@@ -100,39 +100,40 @@
             <h2>Place of Birth</h2>
             <div class="place">
                 <div class="input-place">
-                    <label>RM/FLR/Unit No. & Bldg.Name</label>
-                    <input type="text" name="unit" placeholder="Enter Unit" required>
+                <label for="birth_unit">Unit No. & Bldg. Name:</label>
+                <input type="text" name="birth_unit" id="birth_unit">
                 </div>
                 <div class="input-place">
-                    <label>House/Lot & Blk.No</label>
-                    <input type="text" name="blk_no" placeholder="Enter Blk.No" required>
+                <label for="birth_blk_no">House/Lot & Blk. No:</label>
+                <input type="text" name="birth_blk_no" id="birth_blk_no">
                 </div>
                 <div class="input-place">
-                    <label>Street Name</label>
-                    <input type="text" name="street_name" placeholder="Street Name" required>
+                <label for="birth_street_name">Street Name:</label>
+               <input type="text" name="birth_street_name" id="birth_street_name">
+
                 </div>
                 <div class="input-place">
-                    <label>Subdivision</label>
-                    <input type="text" name="subdivision" placeholder="Subdivision" >
+                <label for="birth_subdivision">Subdivision:</label>
+                <input type="text" name="birth_subdivision" id="birth_subdivision">
                 </div>
             </div>
 
             <div class="home">
                 <div class="input-home">
-                    <label>Brgy/District/Locality</label>
-                    <input type="text" name="brgy" placeholder="Enter Brgy" >
+                <label for="birth_brgy">Brgy/District/Locality:</label>
+                <input type="text" name="birth_brgy" id="birth_brgy">
                 </div>
                 <div class="input-home">
-                    <label>City/Municipality</label>
-                    <input type="text" name="city" placeholder="Enter City" >
+                <label for="birth_city">City:</label>
+                <input type="text" name="birth_city" id="birth_city">
                 </div>
                 <div class="input-home">
-                    <label>Province</label>
-                    <input type="text" name="province" placeholder="Province" >
+                <label for="birth_province">Province:</label>
+                <input type="text" name="birth_province" id="birth_province">
                 </div>
                 <div class="input-home">
-                    <label>Zip Code</label>
-                    <input type="text" name="zip_code" placeholder="Zip Code"  required>
+                <label for="birth_zip_code">Zipcode:</label>
+                <input type="text" name="birth_zip_code" id="birth_zip_code">
                 </div>
             </div>
  
@@ -210,21 +211,21 @@
               </div>
             
          
-            
-            <div class="number">
+              <div class="number">
             <div class="input-number">
              <label>Mobile/Cellphone Number</label>
-             <input type="text" name="mobile_phone" id="mobile_phone" required><br>
+             <input type="text" name="mobile_phone" id="mobile_phone" required>
             </div>
             <div class="input-number">
-    <label>E-mail Address</label>
-    <input type="email" name="email" placeholder="Enter E-mail" required>
-       </div>
+            <label>E-mail Address</label>
+              <input type="email" name="email" placeholder="Enter E-mail" required>
+            </div>
            <div class="input-number">
-    <label>Telephone Number</label>
-    <input type="text" name="telephone_number" id="telephone_number" required><br>
+           <label>Telephone Number</label>
+            <input type="text" name="telephone_number" id="telephone_number" required>
          </div>
             </div>
+            
 
 
 
@@ -275,114 +276,3 @@
 </body>
 </html>
 
-<?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        
-        $lastName = $_POST['last_name'] ?? "";
-        $firstName = $_POST['first_name'] ?? "";
-        $middleInitial = $_POST['middle_initial'] ?? "";
-        $dateOfBirth = $_POST['date_of_birth'] ?? "";
-        
-        $taxId = $_POST['tax_id'] ?? ""; 
-        $mobilePhone = $_POST['mobile_phone'] ?? ""; 
-        $telephoneNumber = $_POST['telephone_number'] ?? "";
-        $email = $_POST['email'] ?? "";
-        $Zipcode = $_POST['zip_code'] ?? "";
-        
-        $fatherLastName = $_POST['father_last_name'] ?? "";
-        $fatherFirstName = $_POST['father_first_name'] ?? "";
-        $fatherMiddleName = $_POST['father_middle_name'] ?? "";
-        
-        $motherLastName = $_POST['mother_last_name'] ?? "";
-        $motherFirstName = $_POST['mother_first_name'] ?? "";
-        $motherMiddleName = $_POST['mother_middle_name'] ?? "";
-
-        $errors = [];
-
-        function validateName($name) {
-            return preg_match("/^[a-zA-Z\s]+$/", $name);
-        }
-
-        function validatePhoneNumber($phone) {
-            return preg_match("/^[0-9]{10,15}$/", $phone);
-        }
-
-        function validateZipcode($Zipcode) {
-            return preg_match("/^[0-9]{10,15}$/", $Zipcode);
-        }
-
-
-        function validateNumber($number) {
-            return preg_match("/^[0-9]+$/", $number);
-        }
-
-        // Ensure the middle initials for father and mother are single letters, not numbers
-        function validateMiddleInitial($middleInitial) {
-            return preg_match("/^[a-zA-Z]{1}$/", $middleInitial);
-        }
-
-        if (!validateName($lastName)) {
-            $errors[] = "Last Name must not contain numbers or special characters.";
-        }
-        if (!validateName($firstName)) {
-            $errors[] = "First Name must not contain numbers or special characters.";
-        }
-        if (!validateName($middleInitial) || strlen($middleInitial) > 1) {
-            $errors[] = "Middle Initial must be a single letter.";
-        }
-
-        if (!empty($dateOfBirth)) {
-            try {
-                $dob = new DateTime($dateOfBirth);
-                $today = new DateTime();
-                $age = $today->diff($dob)->y; 
-                if ($age < 18) {
-                    $errors[] = "You must be at least 18 years old.";
-                }
-            } catch (Exception $e) {
-                $errors[] = "Invalid Date of Birth format.";
-            }
-        } else {
-            $errors[] = "Date of Birth is required.";
-        }
-
-        if (!empty($taxId) && !validateNumber($taxId)) {
-            $errors[] = "Tax Identification Number must contain only numbers.";
-        }
-
-        if (!empty($mobilePhone) && !validatePhoneNumber($mobilePhone)) {
-            $errors[] = "Mobile Phone number must be 10-15 digits long and contain only numbers.";
-        }
-        if (!empty($telephoneNumber) && !validatePhoneNumber($telephoneNumber)) {
-            $errors[] = "Telephone number must be 10-15 digits long and contain only numbers.";
-        }
-
-        if (!empty($Zipcode) && !validateZipcode($Zipcode)) {
-            $errors[] = "Zipcode Allowed Numbers Only.";
-        }
-
-        if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors[] = "Invalid email address format.";
-        }
-
-        // Validate father and mother's middle initial (single letter)
-        if (!validateMiddleInitial($fatherMiddleName)) {
-            $errors[] = "Father's Middle Initial must be a single letter.";
-        }
-
-        if (!validateMiddleInitial($motherMiddleName)) {
-            $errors[] = "Mother's Middle Initial must be a single letter.";
-        }
-
-        // Display the error messages
-        if (!empty($errors)) {
-            echo "<div class='error-messages'>";
-            foreach ($errors as $error) {
-                echo "<p style='color:red;'>$error</p>";
-            }
-            echo "</div>";
-        } else {
-            echo "<p style='color:green;'>Form submitted successfully!</p>";
-        }
-    }
-?>
