@@ -101,10 +101,21 @@ form .fields .input-field{
 
 }
 
-.status{
-    margin-left: 230px;
-    margin-top: -15px;
+.Select {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    margin-bottom: 20px; /* Space below the select box */
 }
+
+#others_container {
+    margin-left: -20px; /* Space between the select and the input */
+}
+
+#others_input {
+    margin-top: 5px; /* Optional: Space above the input */
+}
+
+
 
 
 .container form .type{

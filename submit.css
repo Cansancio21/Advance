@@ -1,19 +1,58 @@
-body {
-    font-family: Arial, sans-serif;
-}
-.backBtn {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+button {
     display: inline-block;
-    text-align: center;
+    padding: 10px 20px;
+    background-color: blue; 
+    color: white; 
+    border: none; 
+    font-size: 16px; 
+    cursor: pointer;
+    transition: color 0.3s; 
     margin-top: 20px;
+    width: 200px;
 }
-.backBtn:hover {
-    background-color: #0056b3;
+
+button:hover {
+    color: red;
+    transform: scale(1.05);
+     
 }
+
+button:active {
+    transform: scale(0.95); 
+}
+
+
+.container {
+    max-width: 800px; 
+    margin: 0 auto; 
+    padding: 20px; 
+    background-color: #f9f9f9; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+}
+
+h2 {
+    border-bottom: 2px solid #007BFF; 
+    padding-bottom: 10px; 
+    margin-top: 20px; 
+    color: #007BFF; 
+}
+
+.data-entry {
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    padding: 15px; 
+    margin: 10px 0;
+    background-color: #fff; 
+}
+
+.data-label {
+    font-weight: bold; 
+    color: #333; 
+}
+
+.data-value {
+    color: #555; 
+}
+
+
