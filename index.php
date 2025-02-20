@@ -90,39 +90,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validation logic
     if (empty($lastName) || preg_match('/[0-9]/', $lastName)) {
-        $errors['last_name'] = "Must not contain numbers.";
+        $errors['last_name'] = "LastName Must not contain numbers.";
     }
 
     if (empty($firstName) || preg_match('/[0-9]/', $firstName)) {
-        $errors['first_name'] = "Must not contain numbers.";
+        $errors['first_name'] = "FirstName Must not contain numbers.";
     }
 
     if (empty($middleName) || preg_match('/[0-9]/', $middleName)) {
-        $errors['middle_initial'] = "Must not contain numbers.";
+        $errors['middle_initial'] = "MiddleName Must not contain numbers.";
     }
 
     if (empty($fatherlastName) || preg_match('/[0-9]/', $fatherlastName)) {
-        $errors['father_last_name'] = "Must not contain numbers.";
+        $errors['father_last_name'] = "Father lastName Must not contain numbers.";
     }
 
     if (empty($fatherfirstName) || preg_match('/[0-9]/', $fatherfirstName)) {
-        $errors['father_first_name'] = "Must not contain numbers.";
+        $errors['father_first_name'] = "Father FirstName Must not contain numbers.";
     }
 
     if (empty($fathermiddleName) || preg_match('/[0-9]/', $fathermiddleName)) {
-        $errors['father_middle_initial'] = "Must not contain numbers.";
+        $errors['father_middle_initial'] = "Father MiddleName Must not contain numbers.";
     }
 
     if (empty($motherlastName) || preg_match('/[0-9]/', $motherlastName)) {
-        $errors['mother_last_name'] = "Must not contain numbers.";
+        $errors['mother_last_name'] = "Mother LastName Must not contain numbers.";
     }
 
     if (empty($motherfirstName) || preg_match('/[0-9]/', $motherfirstName)) {
-        $errors['mother_first_name'] = "Must not contain numbers.";
+        $errors['mother_first_name'] = "Mother FirstName Must not contain numbers.";
     }
 
     if (empty($mothermiddleName) || preg_match('/[0-9]/', $mothermiddleName)) {
-        $errors['mother_middle_initial'] = "Must not contain numbers.";
+        $errors['mother_middle_initial'] = "Mother MiddleName Must not contain numbers.";
     }
 
     if (empty($dateOfBirth)) {
@@ -142,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($taxId) || !preg_match('/^[0-9]+$/', $taxId)) {
-        $errors['tax_id'] = "Must contain numbers only.";
+        $errors['tax_id'] = "TaxID Must contain numbers only.";
     }
 
     if (empty($nationality)) {
@@ -182,7 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($birthzipCode) || !preg_match('/^[0-9]+$/', $birthzipCode)) {
-        $errors['birth_zip_code'] = "Must contain numbers only.";
+        $errors['birth_zip_code'] = "Birth Zipcode Must contain numbers only.";
     }
 
     if (empty($birthcountry)) {
@@ -218,7 +218,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($zipCode) || !preg_match('/^[0-9]+$/', $zipCode)) {
-        $errors['zip_code'] = "Invalid Zip Code. Must contain numbers only.";
+        $errors['zip_code'] = "Zip Code. Must contain numbers only.";
     }
 
 
@@ -229,7 +229,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($mobile)) {
         $errors['mobile_phone'] = "Field is required.";
     } elseif (!preg_match('/^[0-9]+$/', $mobile)) {
-        $errors['mobile_phone'] = "Must contain numbers only.";
+        $errors['mobile_phone'] = "Mobile Phone Must contain numbers only.";
     }
 
     if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -237,10 +237,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($telephone) || !preg_match('/^[0-9]+$/', $telephone)) {
-        $errors['telephone_number'] = "Must contain numbers only.";
+        $errors['telephone_number'] = "Telephone Number Must contain numbers only.";
     }
 
-    // If no errors, store data in session and redirect to submit.php
+ 
     if (empty($errors)) {
         $_SESSION['form_data'] = [
             'fullName' => "$lastName, $firstName $middleName",
@@ -321,22 +321,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="input-field">
                         <label>Last Name</label>
                         <input type="text" name="last_name" placeholder="Enter last Name" required value="<?php echo htmlspecialchars($firstName ?? ''); ?>">
-                        <span class="error"><?php echo $errors['last_name'] ?? ''; ?></span>
+                      
                     </div>
                     <div class="input-field">
                         <label>First Name</label>
                         <input type="text" name="first_name" placeholder="Enter First Name" required value="<?php echo htmlspecialchars($firstName ?? ''); ?>">
-                        <span class="error"><?php echo $errors['first_name'] ?? ''; ?></span>
+                  
                     </div>
                     <div class="input-field">
                         <label>Middle Initial</label>
                         <input type="text" name="middle_initial" placeholder="Enter Middle Initial" required value="<?php echo htmlspecialchars($middleName ?? ''); ?>">
-                        <span class="error"><?php echo $errors['middle_initial'] ?? ''; ?></span>
+                     
                     </div>
                     <div class="input-field">
                         <label for="date_of_birth">Date of Birth:</label>
                         <input type="date" id="date_of_birth" name="date_of_birth" required value="<?php echo htmlspecialchars($dateOfBirth ?? ''); ?>">
-                        <span class="error"><?php echo $errors['date_of_birth'] ?? ''; ?></span>
+                       
                     </div>
                 </div>
 
@@ -345,7 +345,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="Male">Male</label>
                 <input type="radio" id="Female" name="sex" value="Female" required <?php echo (isset($sex) && $sex == 'Female') ? 'checked' : ''; ?>>
                 <label for="Female">Female</label>
-                <span class="error"><?php echo $errors['sex'] ?? ''; ?></span>
+            
 
                 <div class="Select">
                     <label for="civil_status">Civil Status:</label>
@@ -356,24 +356,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <span class="error"><?php echo $errors['civil_status'] ?? ''; ?></span>
 
                     <input type="text" id="others_input" name="others" placeholder="Please specify" style="display: none;" value="<?php echo htmlspecialchars($otherCivil ?? ''); ?>">
-                    <span class="error"><?php echo $errors['others'] ?? ''; ?></span>
+               
                 </div>
 
                 <div class="type">
                     <div class="input-type">
                         <label>Tax Identification Number</label>
                         <input type="text" name="tax_id" id="tax_id" required value="<?php echo htmlspecialchars($mobile ?? ''); ?>">
-                        <span class="error"><?php echo $errors['tax_id'] ?? ''; ?></span>
+              
                     </div>
                     <div class="input-type">
                         <label>Nationality</label>
                         <input type="text" name="nationality" placeholder="Enter Nationality" required value="<?php echo htmlspecialchars($nationality ?? ''); ?>">
-                        <span class="error"><?php echo $errors['nationality'] ?? ''; ?></span>
+                      
                     </div>
                     <div class="input-type">
                         <label>Religion</label>
                         <input type="text" name="religion" placeholder="Enter Religion" value="<?php echo htmlspecialchars($religion ?? ''); ?>">
-                        <span class="error"><?php echo $errors['religion'] ?? ''; ?></span>
+                      
                     </div>
                 </div>
 
@@ -382,22 +382,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="input-place">
                         <label for="birth_unit">Unit No. & Bldg. Name:</label>
                         <input type="text" name="birth_unit" id="birth_unit" value="<?php echo htmlspecialchars($rm ?? ''); ?>">
-                        <span class="error"><?php echo $errors['birth_unit'] ?? ''; ?></span>
+                      
                     </div>
                     <div class="input-place">
                         <label for="birth_blk_no">House/Lot & Blk. No:</label>
                         <input type="text" name="birth_blk_no" id="birth_blk_no" value="<?php echo htmlspecialchars($houseLot ?? ''); ?>">
-                        <span class="error"><?php echo $errors['birth_blk_no'] ?? ''; ?></span>
+                       
                     </div>
                     <div class="input-place">
                         <label for="birth_street_name">Street Name:</label>
                         <input type="text" name="birth_street_name" id="birth_street_name" value="<?php echo htmlspecialchars($streetName ?? ''); ?>">
-                        <span class="error"><?php echo $errors['birth_street_name'] ?? ''; ?></span>
+                      
                     </div>
                     <div class="input-place">
                         <label for="birth_subdivision">Subdivision:</label>
                         <input type="text" name="birth_subdivision" id="birth_subdivision" value="<?php echo htmlspecialchars($subdivision ?? ''); ?>">
-                        <span class="error"><?php echo $errors['birth_subdivision'] ?? ''; ?></span>
+                      
                     </div>
                 </div>
 
@@ -405,22 +405,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="input-home">
                         <label for="birth_brgy">Brgy/District/Locality:</label>
                         <input type="text" name="birth_brgy" id="birth_brgy" value="<?php echo htmlspecialchars($barangay ?? ''); ?>">
-                        <span class="error"><?php echo $errors['birth_brgy'] ?? ''; ?></span>
+                        
                     </div>
                     <div class="input-home">
                         <label for="birth_city">City:</label>
                         <input type="text" name="birth_city" id="birth_city" value="<?php echo htmlspecialchars($city ?? ''); ?>">
-                        <span class="error"><?php echo $errors['birth_city'] ?? ''; ?></span>
+                     
                     </div>
                     <div class="input-home">
                         <label for="birth_province">Province:</label>
                         <input type="text" name="birth_province" id="birth_province" value="<?php echo htmlspecialchars($province ?? ''); ?>">
-                        <span class="error"><?php echo $errors['birth_province'] ?? ''; ?></span>
+                   
                     </div>
                     <div class="input-home">
                         <label for="birth_zip_code">Zipcode:</label>
                         <input type="text" name="birth_zip_code" id="birth_zip_code" value="<?php echo htmlspecialchars($zipCode ?? ''); ?>">
-                        <span class="error"><?php echo $errors['birth_zip_code'] ?? ''; ?></span>
+           
                     </div>
                 </div>
 
@@ -434,7 +434,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         }
                         ?>
                     </select>
-                    <span class="error"><?php echo $errors['birthcountry'] ?? ''; ?></span>
+              
                 </div>
 
                 <h2>Home Address</h2>
@@ -473,7 +473,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="input-home">
                     <label for="zip_code">Zipcode:</label>
                      <input type="text" name="zip_code" id="zip_code" value="<?php echo htmlspecialchars($zipCode ?? ''); ?>">
-                     <span class="error"><?php echo $errors['zip_code'] ?? ''; ?></span>
+                    
                     </div>
                 </div>
 
@@ -487,7 +487,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         }
                         ?>
                     </select>
-                    <span class="error"><?php echo $errors['country'] ?? ''; ?></span>
+                   
                 </div>
 
 
@@ -495,17 +495,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="input-number">
                         <label>Mobile/Cellphone Number</label>
                         <input type="text" name="mobile_phone" id="mobile_phone" required value="<?php echo htmlspecialchars($mobile ?? ''); ?>">
-                        <span class="error"><?php echo $errors['mobile_phone'] ?? ''; ?></span>
+                  
                     </div>
                     <div class="input-number">
                         <label>E-mail Address</label>
                         <input type="email" name="email" placeholder="Enter E-mail" required value="<?php echo htmlspecialchars($email ?? ''); ?>">
-                        <span class="error"><?php echo $errors['email'] ?? ''; ?></span>
+                    
                     </div>
                     <div class="input-number">
                         <label>Telephone Number</label>
                         <input type="text" name="telephone_number" id="telephone_number" required value="<?php echo htmlspecialchars($telephone ?? ''); ?>">
-                        <span class="error"><?php echo $errors['telephone_number'] ?? ''; ?></span>
+                
                     </div>
                 </div>
 
@@ -514,17 +514,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="input-type">
                         <label>Last Name</label>
                         <input type="text" name="father_last_name" placeholder="Enter Last Name" value="<?php echo htmlspecialchars($fatherlastName ?? ''); ?>">
-                        <span class="error"><?php echo $errors['father_last_name'] ?? ''; ?></span>
+                      
                     </div>
                     <div class="input-type">
                         <label>First Name</label>
                         <input type="text" name="father_first_name" placeholder="Enter First Name" value="<?php echo htmlspecialchars($fatherfirstName ?? ''); ?>">
-                        <span class="error"><?php echo $errors['father_first_name'] ?? ''; ?></span>
+                     
                     </div>
                     <div class="input-type">
                         <label>Middle Name</label>
                         <input type="text" name="father_middle_name" placeholder="Enter Middle Name" value="<?php echo htmlspecialchars($fathermiddleName ?? ''); ?>">
-                        <span class="error"><?php echo $errors['father_middle_initial'] ?? ''; ?></span>
+                       
                     </div>
                 </div>
 
@@ -533,20 +533,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="input-type">
                         <label>Last Name</label>
                         <input type="text" name="mother_last_name" placeholder="Enter Last Name" value="<?php echo htmlspecialchars($motherlastName ?? ''); ?>">
-                        <span class="error"><?php echo $errors['mother_last_name'] ?? ''; ?></span>
+                      
                     </div>
                     <div class="input-type">
                         <label>First Name</label>
                         <input type="text" name="mother_first_name" placeholder="Enter First Name" value="<?php echo htmlspecialchars($motherfirstName ?? ''); ?>">
-                        <span class="error"><?php echo $errors['mother_first_name'] ?? ''; ?></span>
+                     
                     </div>
                     <div class="input-type">
                         <label>Middle Name</label>
                         <input type="text" name="mother_middle_name" placeholder="Enter Middle Name" value="<?php echo htmlspecialchars($mothermiddleName ?? ''); ?>">
-                        <span class="error"><?php echo $errors['mother_middle_initial'] ?? ''; ?></span>
+                      
                     </div>
                 </div>
-
+                  
+                <div class="buttons">
+    <div class="error-container">
+        <?php if (!empty($errors)): ?>
+            <div class="error">
+                <?php echo implode('<br>', $errors);?>
+            </div>
+        <?php endif; ?>
                 <div class="buttons">
                     <button type="submit" class="subBtn">
                         <div class="btnText">Submit</div>
