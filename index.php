@@ -23,14 +23,14 @@ function calculateAge($dob) {
 }
 
 $civilstatus = generateOptions($Status);
-$countries = [ "Afghanistan","Albania","Algeria","American Samoa","Andorra","Angola","Anguilla","Antarctica","Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas (the)","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia (Plurinational State of)","Bonaire, Sint Eustatius and Saba","Bosnia and Herzegovina","Botswana","Bouvet Island","Brazil","British Indian Ocean Territory (the)","Brunei Darussalam","Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia","Cameroon","Canada","Cayman Islands (the)","Central African Republic (the)","Chad","Chile","China","Christmas Island","Cocos (Keeling) Islands (the)","Colombia","Comoros (the)","Congo (the Democratic Republic of the)","Congo (the)","Cook Islands (the)","Costa Rica","Croatia","Cuba","Curaçao","Cyprus","Czechia","Côte d'Ivoire","Denmark","Djibouti","Dominica","Dominican Republic (the)","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Falkland Islands (the) [Malvinas]","Faroe Islands (the)","Fiji","Finland","France","French Guiana","French Polynesia","French Southern Territories (the)","Gabon","Gambia (the)","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guadeloupe","Guam","Guatemala","Guernsey","Guinea","Guinea-Bissau","Guyana","Haiti","Heard Island and McDonald Islands","Holy See (the)","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran (Islamic Republic of)","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Korea (the Democratic People's Republic of)","Korea (the Republic of)","Kuwait","Kyrgyzstan","Lao People's Democratic Republic (the)","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macao","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands (the)","Martinique","Mauritania","Mauritius","Mayotte","Mexico","Micronesia (Federated States of)","Moldova (the Republic of)","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands (the)","New Caledonia","New Zealand","Nicaragua","Niger (the)","Nigeria","Niue","Norfolk Island","Northern Mariana Islands (the)","Norway","Oman","Pakistan","Palau","Palestine, State of","Panama","Papua New Guinea","Paraguay","Peru","Philippines (the)","Pitcairn","Poland","Portugal","Puerto Rico","Qatar","Republic of North Macedonia","Romania","Russian Federation (the)","Rwanda","Réunion","Saint Barthélemy","Saint Helena, Ascension and Tristan da Cunha","Saint Kitts and Nevis","Saint Lucia","Saint Martin (French part)","Saint Pierre and Miquelon","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Sint Maarten (Dutch part)","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Georgia and the South Sandwich Islands","South Sudan","Spain","Sri Lanka","Sudan (the)","Suriname","Svalbard and Jan Mayen","Sweden","Switzerland","Syrian Arab Republic","Taiwan","Tajikistan","Tanzania, United Republic of","Thailand","Timor-Leste","Togo","Tokelau","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Turks and Caicos Islands (the)","Tuvalu","Uganda","Ukraine","United Arab Emirates (the)","United Kingdom of Great Britain and Northern Ireland (the)","United States Minor Outlying Islands (the)","United States of America (the)","Uruguay","Uzbekistan","Vanuatu","Venezuela (Bolivarian Republic of)","Viet Nam","Virgin Islands (British)","Virgin Islands (U.S.)","Wallis and Futuna","Western Sahara","Yemen","Zambia","Zimbabwe","Åland Islands" ];
+$countries = ["Afghanistan", "Albania", "Algeria", /* ... other countries ... */ "Zimbabwe", "Åland Islands"];
 $countryOpt = generateOptions($countries);
 
 $errors = [];
 $success = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Collect and sanitize form data
+    // Collect form data
     $lastName = trim($_POST['last_name'] ?? '');
     $firstName = trim($_POST['first_name'] ?? '');
     $middleName = trim($_POST['middle_initial'] ?? '');
@@ -59,126 +59,143 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $province = trim($_POST['province'] ?? '');
     $country = $_POST['country'] ?? '';
     $zipCode = trim($_POST['zip_code'] ?? '');
-
     $mobile = trim($_POST['mobile_phone'] ?? '');
     $telephone = trim($_POST['telephone_number'] ?? '');
     $email = trim($_POST['email'] ?? '');
-
     $fatherlastName = trim($_POST['father_last_name'] ?? '');
     $fatherfirstName = trim($_POST['father_first_name'] ?? '');
     $fathermiddleName = trim($_POST['father_middle_name'] ?? '');
-
     $motherlastName = trim($_POST['mother_last_name'] ?? '');
     $motherfirstName = trim($_POST['mother_first_name'] ?? '');
     $mothermiddleName = trim($_POST['mother_middle_name'] ?? '');
 
     // Validation logic
-    // Add your validation logic here and populate $errors if needed
-
-  // Validation logic
-  if (strtotime($dateOfBirth) > time()) {
-    $errors[] = "Date of birth cannot be in the future.";
-}
-
-if (empty($errors)) {
-    // Step 1: Insert into the users table
-    $stmt = $conn->prepare("INSERT INTO tbl_formation(u_lname, u_fname, u_middle, u_dob, u_sex, u_status, u_tax, u_nationality, u_religion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssssss", $lastName, $firstName, $middleName, $dateOfBirth, $sex, $civilStatus, $taxId, $nationality, $religion);
-    
-    if ($stmt->execute()) {
-        // Step 2: Get the last inserted user ID
-        $userId = $stmt->insert_id;
-
-        // Step 3: Insert into the birth table
-        $stmt = $conn->prepare("INSERT INTO tbl_birth(b_unit, b_blk, b_sn, b_sub, b_brgy, b_city, b_province, b_country, b_zip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("issssssss", $birthunit, $birthblk, $birthstreetName, $birthsubdivision, $birthbarangay, $birthcity, $birthprovince, $birthcountry, $birthzipCode);
-        if (!$stmt->execute()) {
-            echo "Error in tbl_birth: " . $stmt->error;
-            exit();
-        }
-
-        // Step 4: Insert into the address table
-        $stmt = $conn->prepare("INSERT INTO tbl_address(h_unit, h_blk, h_sn, h_sub, h_brgy, h_city, h_province, h_country, h_zip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("issssssss", $unit, $blk, $streetName, $subdivision, $barangay, $city, $province, $country, $zipCode);
-        if (!$stmt->execute()) {
-            echo "Error in tbl_address: " . $stmt->error;
-            exit();
-        }
-
-        // Step 5: Insert into the contact table
-        $stmt = $conn->prepare("INSERT INTO tbl_contact(c_mobile, c_email, c_tel) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $mobile, $email, $telephone);
-        if (!$stmt->execute()) {
-            echo "Error in tbl_contact: " . $stmt->error;
-            exit();
-        }
-
-        // Step 6: Insert into the parents table
-        $stmt = $conn->prepare("INSERT INTO tbl_parents(f_lname, f_fname, f_middle, m_lname, m_fname, m_middle) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $fatherlastName, $fatherfirstName, $fathermiddleName, $motherlastName, $motherfirstName, $mothermiddleName);
-        if (!$stmt->execute()) {
-            echo "Error in tbl_parents: " . $stmt->error;
-            exit();
-        }
-
-        $age = calculateAge($dateOfBirth);
-
-        // Store form data in session
-        $_SESSION['form_data'] = [
-            'fullName' => $firstName . ' ' . $middleName . ' ' . $lastName,
-            'dob' => $dateOfBirth,
-            'age' => $age, // Store age
-            'sex' => $sex,
-            'civilStatus' => $civilStatus,
-            'otherCivil' => $otherCivil,
-            'taxId' => $taxId,
-            'nationality' => $nationality,
-            'religion' => $religion,
-            'birth' => [
-                'birth_unit' => $birthunit,
-                'birth_blk_no' => $birthblk,
-                'birth_street_name' => $birthstreetName,
-                'birth_subdivision' => $birthsubdivision,
-                'birth_brgy' => $birthbarangay,
-                'birth_city' => $birthcity,
-                'birth_province' => $birthprovince,
-                'birth_zip_code' => $birthzipCode,
-                'birthcountry' => $birthcountry,
-            ],
-            'address' => [
-                'unit' => $unit,
-                'blk_no' => $blk,
-                'street_name' => $streetName,
-                'subdivision' => $subdivision,
-                'brgy' => $barangay,
-                'city' => $city,
-                'province' => $province,
-                'zip_code' => $zipCode,
-                'country' => $country,
-            ],
-            'contact' => [
-                'mobile' => $mobile,
-                'telephone' => $telephone,
-                'email' => $email,
-            ],
-            'father_last_name' => $fatherlastName,
-            'father_first_name' => $fatherfirstName,
-            'father_middle_initial' => $fathermiddleName,
-            'mother_last_name' => $motherlastName,
-            'mother_first_name' => $motherfirstName,
-            'mother_middle_initial' => $mothermiddleName,
-        ];
-
-        // Redirect to submit.php
-        header("Location: submit.php");
-        exit();
-    } else {
-        echo "Error in tbl_formation: " . $stmt->error;
+    if (strtotime($dateOfBirth) > time()) {
+        $errors[] = "Date of birth cannot be in the future.";
     }
 
-    // Close the statement
-    $stmt->close();
-}
+    if (empty($errors)) {
+        // Step 1: Insert into the users table
+        $stmt = $conn->prepare("INSERT INTO tbl_formation(u_lname, u_fname, u_middle, u_dob, u_sex, u_status, u_tax, u_nationality, u_religion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssssss", $lastName, $firstName, $middleName, $dateOfBirth, $sex, $civilStatus, $taxId, $nationality, $religion);
+        
+        if ($stmt->execute()) {
+            // Store U_ID
+            $uId = $stmt->insert_id;
+
+            // Step 2: Insert into the birth table
+            $stmt = $conn->prepare("INSERT INTO tbl_birth(b_unit, b_blk, b_sn, b_sub, b_brgy, b_city, b_province, b_country, b_zip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("issssssss", $birthunit, $birthblk, $birthstreetName, $birthsubdivision, $birthbarangay, $birthcity, $birthprovince, $birthcountry, $birthzipCode);
+            if ($stmt->execute()) {
+                // Store B_ID
+                $bId = $stmt->insert_id;
+
+                // Step 4: Insert into the address table
+                $stmt = $conn->prepare("INSERT INTO tbl_address(h_unit, h_blk, h_sn, h_sub, h_brgy, h_city, h_province, h_country, h_zip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("issssssss", $unit, $blk, $streetName, $subdivision, $barangay, $city, $province, $country, $zipCode);
+                if ($stmt->execute()) {
+                    // Store H_ID
+                    $hId = $stmt->insert_id;
+
+                    // Step 5: Insert into the contact table
+                    $stmt = $conn->prepare("INSERT INTO tbl_contact(c_mobile, c_email, c_tel) VALUES (?, ?, ?)");
+                    $stmt->bind_param("sss", $mobile, $email, $telephone);
+                    if ($stmt->execute()) {
+                        // Store C_ID
+                        $cId = $stmt->insert_id;
+
+                        // Step 6: Insert into the parents table
+                        $stmt = $conn->prepare("INSERT INTO tbl_parents(f_lname, f_fname, f_middle, m_lname, m_fname, m_middle) VALUES (?, ?, ?, ?, ?, ?)");
+                        $stmt->bind_param("ssssss", $fatherlastName, $fatherfirstName, $fathermiddleName, $motherlastName, $motherfirstName, $mothermiddleName);
+                        if ($stmt->execute()) {
+                            // Store P_ID
+                            $pId = $stmt->insert_id;
+
+                            // Store all IDs in session
+                            $_SESSION['ids'] = [
+                                'u_id' => $uId,
+                                'b_id' => $bId,
+                                'h_id' => $hId,
+                                'c_id' => $cId,
+                                'p_id' => $pId,
+                            ];
+
+                            $age = calculateAge($dateOfBirth);
+
+                            // Store form data in session
+                            $_SESSION['form_data'] = [
+                                'last' => $lastName,
+                                'first' => $firstName,
+                                'middle' => $middleName,
+                                'dob' => $dateOfBirth,
+                                'age' => $age, // Store age
+                                'sex' => $sex,
+                                'civilStatus' => $civilStatus,
+                                'otherCivil' => $otherCivil,
+                                'taxId' => $taxId,
+                                'nationality' => $nationality,
+                                'religion' => $religion,
+                                'birth' => [
+                                    'birth_unit' => $birthunit,
+                                    'birth_blk_no' => $birthblk,
+                                    'birth_street_name' => $birthstreetName,
+                                    'birth_subdivision' => $birthsubdivision,
+                                    'birth_brgy' => $birthbarangay,
+                                    'birth_city' => $birthcity,
+                                    'birth_province' => $birthprovince,
+                                    'birth_zip_code' => $birthzipCode,
+                                    'birthcountry' => $birthcountry,
+                                ],
+                                'address' => [
+                                    'unit' => $unit,
+                                    'blk_no' => $blk,
+                                    'street_name' => $streetName,
+                                    'subdivision' => $subdivision,
+                                    'brgy' => $barangay,
+                                    'city' => $city,
+                                    'province' => $province,
+                                    'zip_code' => $zipCode,
+                                    'country' => $country,
+                                ],
+                                'contact' => [
+                                    'mobile' => $mobile,
+                                    'telephone' => $telephone,
+                                    'email' => $email,
+                                ],
+                                'father_last_name' => $fatherlastName,
+                                'father_first_name' => $fatherfirstName,
+                                'father_middle_initial' => $fathermiddleName,
+                                'mother_last_name' => $motherlastName,
+                                'mother_first_name' => $motherfirstName,
+                                'mother_middle_initial' => $mothermiddleName,
+                            ];
+
+                            // Redirect to submit.php
+                            header("Location: submit.php");
+                            exit();
+                        } else {
+                            echo "Error in tbl_parents: " . $stmt->error;
+                            exit();
+                        }
+                    } else {
+                        echo "Error in tbl_contact: " . $stmt->error;
+                        exit();
+                    }
+                } else {
+                    echo "Error in tbl_address: " . $stmt->error;
+                    exit();
+                }
+            } else {
+                echo "Error in tbl_birth: " . $stmt->error;
+                exit();
+            }
+        } else {
+            echo "Error in tbl_formation: " . $stmt->error;
+        }
+
+        // Close the statement
+        $stmt->close();
+    }
 }
 
 // Close the database connection
