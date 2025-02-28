@@ -59,16 +59,22 @@ $contactResult = $conn->query("SELECT * FROM tbl_contact");
 // Fetch all entries from the tbl_parents table
 $parentsResult = $conn->query("SELECT * FROM tbl_parents");
 
+
+
 $conn->close(); // Close the database connection
 ?>
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submitted Data</title>
     <link rel="stylesheet" href="submit.css">
+    <script>
+        function viewData(id) {
+            window.location.href = 'view.php?id=' + id;
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -88,9 +94,10 @@ $conn->close(); // Close the database connection
                 <th>Tax ID</th> 
                 <th>Nationality</th> 
                 <th>Religion</th>
+                <th>Action</th>
             </tr>
             <?php while ($row = $formationResult->fetch_assoc()): ?>
-            <tr>
+            <tr onclick="viewData(<?= $row['u_id'] ?>)" style="cursor: pointer;">
                 <td><?= $row['u_id'] ?></td>
                 <td><?= htmlspecialchars($row['u_lname']) ?></td>
                 <td><?= htmlspecialchars($row['u_fname']) ?></td>
@@ -101,6 +108,14 @@ $conn->close(); // Close the database connection
                 <td><?= htmlspecialchars($row['u_tax']) ?></td>
                 <td><?= htmlspecialchars($row['u_nationality']) ?></td>
                 <td><?= htmlspecialchars($row['u_religion']) ?></td>
+                <td>
+                    <a href="edit.php?id=<?= $row['u_id'] ?>" class="edit-link">Edit</a>
+                    <form action="delete.php" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="<?= $row['u_id'] ?>">
+                        <input type="hidden" name="table" value="formation">
+                        <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this record?');">Delete</button>
+                    </form>
+                </td>
             </tr>
             <?php endwhile; ?>
         </table>
@@ -119,9 +134,10 @@ $conn->close(); // Close the database connection
                 <th>Province</th> 
                 <th>Country</th> 
                 <th>Zip Code</th>
+                <th>Action</th>
             </tr>
             <?php while ($row = $birthResult->fetch_assoc()): ?>
-            <tr>
+            <tr onclick="viewData(<?= $row['b_id'] ?>)" style="cursor: pointer;">
                 <td><?= $row['b_id'] ?></td>
                 <td><?= htmlspecialchars($row['b_unit']) ?></td>
                 <td><?= htmlspecialchars($row['b_blk']) ?></td>
@@ -132,6 +148,14 @@ $conn->close(); // Close the database connection
                 <td><?= htmlspecialchars($row['b_province']) ?></td>
                 <td><?= htmlspecialchars($row['b_country']) ?></td>
                 <td><?= htmlspecialchars($row['b_zip']) ?></td>
+                <td>
+                    <a href="edit.php?id=<?= $row['b_id'] ?>" class="edit-link">Edit</a>
+                    <form action="delete.php" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="<?= $row['b_id'] ?>">
+                        <input type="hidden" name="table" value="birth">
+                        <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this record?');">Delete</button>
+                    </form>
+                </td>
             </tr>
             <?php endwhile; ?>
         </table>
@@ -150,9 +174,10 @@ $conn->close(); // Close the database connection
                 <th>Province</th> 
                 <th>Country</th> 
                 <th>Zip Code</th>
+                <th>Action</th>
             </tr>
             <?php while ($row = $addressResult->fetch_assoc()): ?>
-            <tr>
+            <tr onclick="viewData(<?= $row['h_id'] ?>)" style="cursor: pointer;">
                 <td><?= $row['h_id'] ?></td>
                 <td><?= htmlspecialchars($row['h_unit']) ?></td>
                 <td><?= htmlspecialchars($row['h_blk']) ?></td>
@@ -163,6 +188,14 @@ $conn->close(); // Close the database connection
                 <td><?= htmlspecialchars($row['h_province']) ?></td>
                 <td><?= htmlspecialchars($row['h_country']) ?></td>
                 <td><?= htmlspecialchars($row['h_zip']) ?></td>
+                <td>
+                    <a href="edit.php?id=<?= $row['h_id'] ?>" class="edit-link">Edit</a>
+                    <form action="delete.php" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="<?= $row['h_id'] ?>">
+                        <input type="hidden" name="table" value="address">
+                        <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this record?');">Delete</button>
+                    </form>
+                </td>
             </tr>
             <?php endwhile; ?>
         </table>
@@ -175,13 +208,22 @@ $conn->close(); // Close the database connection
                 <th>Mobile</th> 
                 <th>Telephone</th> 
                 <th>Email</th>
+                <th>Action</th>
             </tr>
             <?php while ($row = $contactResult->fetch_assoc()): ?>
-            <tr>
+            <tr onclick="viewData(<?= $row['c_id'] ?>)" style="cursor: pointer;">
                 <td><?= $row['c_id'] ?></td>
                 <td><?= htmlspecialchars($row['c_mobile']) ?></td>
                 <td><?= htmlspecialchars($row['c_tel']) ?></td>
                 <td><?= htmlspecialchars($row['c_email']) ?></td>
+                <td>
+                    <a href="edit.php?id=<?= $row['c_id'] ?>" class="edit-link">Edit</a>
+                    <form action="delete.php" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="<?= $row['c_id'] ?>">
+                        <input type="hidden" name="table" value="contact">
+                        <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this record?');">Delete</button>
+                    </form>
+                </td>
             </tr>
             <?php endwhile; ?>
         </table>
@@ -197,9 +239,10 @@ $conn->close(); // Close the database connection
                 <th>Mother's Last Name</th> 
                 <th>Mother's First Name</th> 
                 <th>Mother's Middle Initial</th>
+                <th>Action</th>
             </tr>
             <?php while ($row = $parentsResult->fetch_assoc()): ?>
-            <tr>
+            <tr onclick="viewData(<?= $row['p_id'] ?>)" style="cursor: pointer;">
                 <td><?= $row['p_id'] ?></td>
                 <td><?= htmlspecialchars($row['f_lname']) ?></td>
                 <td><?= htmlspecialchars($row['f_fname']) ?></td>
@@ -207,6 +250,14 @@ $conn->close(); // Close the database connection
                 <td><?= htmlspecialchars($row['m_lname']) ?></td>
                 <td><?= htmlspecialchars($row['m_fname']) ?></td>
                 <td><?= htmlspecialchars($row['m_middle']) ?></td>
+                <td>
+                    <a href="edit.php?id=<?= $row['p_id'] ?>" class="edit-link">Edit</a>
+                    <form action="delete.php" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="<?= $row['p_id'] ?>">
+                        <input type="hidden" name="table" value="parents">
+                        <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this record?');">Delete</button>
+                    </form>
+                </td>
             </tr>
             <?php endwhile; ?>
         </table>

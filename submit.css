@@ -82,5 +82,31 @@ button {
 }
 
 button:hover {
-    background-color: red; /* Change background color on hover */
+    background-color: red; 
+}
+
+ 
+ .delete-link {
+    color: white; 
+    background-color: #f44336;
+    padding: 5px 10px;
+    text-decoration: none; 
+    border-radius: 5px; 
+    display: inline-block; 
+}
+
+.delete-link:hover {
+    background-color: #d32f2f; 
+}
+
+
+.edit-link {
+    color: blue; 
+    text-decoration: none; 
+    padding: 5px 10px; 
+    border-radius: 5px; 
+}
+
+.edit-link:hover {
+    background-color: #e0e0e0; 
 }

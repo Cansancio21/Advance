@@ -22,7 +22,7 @@ function calculateAge($dob) {
 }
 
 $civilstatus = generateOptions($Status);
-$countries = ["Afghanistan", "Albania", "Algeria", "Zimbabwe", "Åland Islands"];
+$countries = ["Afghanistan","Albania","Algeria","American Samoa","Andorra","Angola","Anguilla","Antarctica","Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas (the)","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia (Plurinational State of)","Bonaire, Sint Eustatius and Saba","Bosnia and Herzegovina","Botswana","Bouvet Island","Brazil","British Indian Ocean Territory (the)","Brunei Darussalam","Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia","Cameroon","Canada","Cayman Islands (the)","Central African Republic (the)","Chad","Chile","China","Christmas Island","Cocos (Keeling) Islands (the)","Colombia","Comoros (the)","Congo (the Democratic Republic of the)","Congo (the)","Cook Islands (the)","Costa Rica","Croatia","Cuba","Curaçao","Cyprus","Czechia","Côte d'Ivoire","Denmark","Djibouti","Dominica","Dominican Republic (the)","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Falkland Islands (the) [Malvinas]","Faroe Islands (the)","Fiji","Finland","France","French Guiana","French Polynesia","French Southern Territories (the)","Gabon","Gambia (the)","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guadeloupe","Guam","Guatemala","Guernsey","Guinea","Guinea-Bissau","Guyana","Haiti","Heard Island and McDonald Islands","Holy See (the)","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran (Islamic Republic of)","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Korea (the Democratic People's Republic of)","Korea (the Republic of)","Kuwait","Kyrgyzstan","Lao People's Democratic Republic (the)","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macao","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands (the)","Martinique","Mauritania","Mauritius","Mayotte","Mexico","Micronesia (Federated States of)","Moldova (the Republic of)","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands (the)","New Caledonia","New Zealand","Nicaragua","Niger (the)","Nigeria","Niue","Norfolk Island","Northern Mariana Islands (the)","Norway","Oman","Pakistan","Palau","Palestine, State of","Panama","Papua New Guinea","Paraguay","Peru","Philippines (the)","Pitcairn","Poland","Portugal","Puerto Rico","Qatar","Republic of North Macedonia","Romania","Russian Federation (the)","Rwanda","Réunion","Saint Barthélemy","Saint Helena, Ascension and Tristan da Cunha","Saint Kitts and Nevis","Saint Lucia","Saint Martin (French part)","Saint Pierre and Miquelon","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Sint Maarten (Dutch part)","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Georgia and the South Sandwich Islands","South Sudan","Spain","Sri Lanka","Sudan (the)","Suriname","Svalbard and Jan Mayen","Sweden","Switzerland","Syrian Arab Republic","Taiwan","Tajikistan","Tanzania, United Republic of","Thailand","Timor-Leste","Togo","Tokelau","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Turks and Caicos Islands (the)","Tuvalu","Uganda","Ukraine","United Arab Emirates (the)","United Kingdom of Great Britain and Northern Ireland (the)","United States Minor Outlying Islands (the)","United States of America (the)","Uruguay","Uzbekistan","Vanuatu","Venezuela (Bolivarian Republic of)","Viet Nam","Virgin Islands (British)","Virgin Islands (U.S.)","Wallis and Futuna","Western Sahara","Yemen","Zambia","Zimbabwe","Åland Islands"];
 $countryOpt = generateOptions($countries);
 
 $errors = [];
@@ -68,157 +68,158 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $motherfirstName = trim($_POST['mother_first_name'] ?? '');
     $mothermiddleName = trim($_POST['mother_middle_name'] ?? '');
 
-    // Validation logic
-    // Validation logic
- if (empty($lastName) || preg_match('/[0-9]/', $lastName)) {
-    $errors['last_name'] = "Last name must not contain numbers.";
-}
+     // Validation logic
+     if (empty($lastName) || preg_match('/[0-9]/', $lastName)) {
+        $errors['last_name'] = "Last Must not contain numbers.";
+    }
 
-if (empty($firstName) || preg_match('/[0-9]/', $firstName)) {
-    $errors['first_name'] = "First name must not contain numbers.";
-}
+    if (empty($firstName) || preg_match('/[0-9]/', $firstName)) {
+        $errors['first_name'] = "First Must not contain numbers.";
+    }
 
-if (empty($middleName) || preg_match('/[0-9]/', $middleName)) {
-    $errors['middle_initial'] = "Middle initial must not contain numbers.";
-}
+    if (empty($middleName) || preg_match('/[0-9]/', $middleName)) {
+        $errors['middle_initial'] = "Middle Must not contain numbers.";
+    }
 
-if (empty($dateOfBirth)) {
-    $errors['date_of_birth'] = "Date of birth is required.";
-} elseif (strtotime($dateOfBirth) > time()) {
-    $errors['date_of_birth'] = "Date of birth cannot be in the future.";
-} elseif (calculateAge($dateOfBirth) < 18) {
-    $errors['date_of_birth'] = "You must be at least 18 years old.";
-}
+    if (empty($fatherlastName) || preg_match('/[0-9]/', $fatherlastName)) {
+        $errors['father_last_name'] = "Father LastName Must not contain numbers.";
+    }
 
-if (empty($sex)) {
-    $errors['sex'] = "Select a Gender.";
-}
+    if (empty($fatherfirstName) || preg_match('/[0-9]/', $fatherfirstName)) {
+        $errors['father_first_name'] = "Father FirstName Must not contain numbers.";
+    }
 
-if (empty($civilStatus)) {
-    $errors['civil_status'] = "Select a Civil Status.";
-} elseif ($civilStatus === 'Others' && empty($otherCivil)) {
-    $errors['others'] = "Please Specify Your Civil Status.";
-}
+    if (empty($fathermiddleName) || preg_match('/[0-9]/', $fathermiddleName)) {
+        $errors['father_middle_initial'] = "Father Middle Must not contain numbers.";
+    }
 
-if (empty($taxId) || !preg_match('/^\d+$/', $taxId)) {
-    $errors['tax_id'] = "Tax ID must contain numbers only.";
-}
+    if (empty($motherlastName) || preg_match('/[0-9]/', $motherlastName)) {
+        $errors['mother_last_name'] = "Mother LastNameMust not contain numbers.";
+    }
 
-if (empty($nationality)) {
-    $errors['nationality'] = "Field is required.";
-}
+    if (empty($motherfirstName) || preg_match('/[0-9]/', $motherfirstName)) {
+        $errors['mother_first_name'] = "Father FirstName Must not contain numbers.";
+    }
 
-if (empty($religion)) {
-    $religion = "N/A"; // Default value if not provided
-}
+    if (empty($mothermiddleName) || preg_match('/[0-9]/', $mothermiddleName)) {
+        $errors['mother_middle_initial'] = "Mother Middle Must not contain numbers.";
+    }
 
-if (empty($birthunit)) {
-    $errors['birth_unit'] = "Field is required.";
-}
+    if (empty($dateOfBirth)) {
+        $errors['date_of_birth'] = "Invalid Date of Birth.";
+    } elseif (calculateAge($dateOfBirth) < 18) {
+        $errors['date_of_birth'] = "You must be at least 18 years old.";
+    }
 
-if (empty($birthblk)) {
-    $errors['birth_blk_no'] = "Field is required.";
-}
+    if (empty($sex)) {
+        $errors['sex'] = "Select a Gender.";
+    }
 
-if (empty($birthstreetName)) {
-    $errors['birth_street_name'] = "Field is required.";
-}
+    if (empty($civilStatus)) {
+        $errors['civil_status'] = "Select a Civil Status.";
+    } elseif ($civilStatus === 'Others' && empty($otherCivil)) {
+        $errors['others'] = "Please Specify Your Civil Status.";
+    }
 
-if (empty($birthsubdivision)) {
-    $birthsubdivision = "N/A"; // Default value if not provided
-}
+    if (empty($taxId) || !preg_match('/^[0-9]+$/', $taxId)) {
+        $errors['tax_id'] = " Tax Must contain numbers only.";
+    }
 
-if (empty($birthbarangay)) {
-    $birthbarangay = "N/A"; // Default value if not provided
-}
+    if (empty($nationality)) {
+        $errors['nationality'] = "Field is required.";
+    }
 
-if (empty($birthcity)) {
-    $birthcity = "N/A"; // Default value if not provided
-}
+    if (empty($religion)) {
+        $religion = "N/A";
+    }
 
-if (empty($birthprovince)) {
-    $birthprovince = "N/A"; // Default value if not provided
-}
+    if (empty($birthunit)) {
+        $errors['birth_unit'] = "Field is required.";
+    }
 
-if (empty($birthzipCode) || !preg_match('/^\d+$/', $birthzipCode)) {
-    $errors['birth_zip_code'] = " Birthzip Must contain numbers only.";
-}
+    if (empty($birthblk)) {
+        $errors['birth_blk_no'] = "Field is required.";
+    }
 
-if (empty($birthcountry)) {
-    $birthcountry = "N/A"; // Default value if not provided
-}
+    if (empty($birthstreetName)) {
+        $errors['birth_street_name'] = "Field is required.";
+    }
 
-if (empty($unit)) {
-    $errors['unit'] = "Field is required.";
-}
+    if (empty($birthsubdivision)) {
+        $birthsubdivision = "N/A";
+    }
 
-if (empty($blk)) {
-    $errors['blk_no'] = "Field is required.";
-}
+    if (empty($birthbarangay)) {
+        $birthbarangay = "N/A";
+    }
 
-if (empty($streetName)) {
-    $errors['street_name'] = "Field is required.";
-}
+    if (empty($birthcity)) {
+        $birthcity = "N/A";
+    }
 
-if (empty($subdivision)) {
-    $subdivision = "N/A"; // Default value if not provided
-}
+    if (empty($birthprovince)) {
+        $birthprovince = "N/A";
+    }
 
-if (empty($barangay)) {
-    $barangay = "N/A"; // Default value if not provided
-}
+    if (empty($birthzipCode) || !preg_match('/^[0-9]+$/', $birthzipCode)) {
+        $errors['birth_zip_code'] = " Birthzip Must contain numbers only.";
+    }
 
-if (empty($city)) {
-    $city = "N/A"; // Default value if not provided
-}
+    if (empty($birthcountry)) {
+        $birthcountry = "N/A";
+    }
 
-if (empty($province)) {
-    $province = "N/A"; // Default value if not provided
-}
+    if (empty($unit)) {
+        $errors['unit'] = "Field is required.";
+    }
 
-if (empty($zipCode) || !preg_match('/^\d+$/', $zipCode)) {
-    $errors['zip_code'] = "Invalid Zip Code. Must contain numbers only.";
-}
+    if (empty($blk)) {
+        $errors['blk_no'] = "Field is required.";
+    }
 
-if (empty($country)) {
-    $country = "N/A"; // Default value if not provided
-}
+    if (empty($streetName)) {
+        $errors['street_name'] = "Field is required.";
+    }
 
-if (empty($mobile) || !preg_match('/^\d+$/', $mobile)) {
-    $errors['mobile_phone'] = "Mobile number must contain numbers only.";
-}
+    if (empty($subdivision)) {
+        $subdivision = "N/A";
+    }
 
-if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $errors['email'] = "Invalid email format.";
-}
+    if (empty($barangay)) {
+        $barangay = "N/A";
+    }
 
-if (empty($telephone) || !preg_match('/^\d+$/', $telephone)) {
-    $errors['telephone_number'] = "Telephone number must contain numbers only.";
-}
+    if (empty($city)) {
+        $city = "N/A";
+    }
 
-if (empty($fatherlastName) || preg_match('/[0-9]/', $fatherlastName)) {
-    $errors['father_last_name'] = "Father Last name must not contain numbers.";
-}
+    if (empty($province)) {
+        $province = "N/A";
+    }
 
-if (empty($fatherfirstName) || preg_match('/[0-9]/', $fatherfirstName)) {
-    $errors['father_first_name'] = "Father First name must not contain numbers.";
-}
+    if (empty($zipCode) || !preg_match('/^[0-9]+$/', $zipCode)) {
+        $errors['zip_code'] = "Invalid Zip Code. Must contain numbers only.";
+    }
 
-if (empty($fathermiddleName) || preg_match('/[0-9]/', $fathermiddleName)) {
-    $errors['father_middle_name'] = "Father Middle initial must not contain numbers.";
-}
 
-if (empty($motherlastName) || preg_match('/[0-9]/', $motherlastName)) {
-    $errors['mother_last_name'] = "Mother Last name must not contain numbers.";
-}
+    if (empty($country)) {
+        $country = "N/A";
+    }
 
-if (empty($motherfirstName) || preg_match('/[0-9]/', $motherfirstName)) {
-    $errors['mother_first_name'] = "Mother First name must not contain numbers.";
-}
+    if (empty($mobile)) {
+        $errors['mobile_phone'] = "Field is required.";
+    } elseif (!preg_match('/^[0-9]+$/', $mobile)) {
+        $errors['mobile_phone'] = "Mobile Must contain numbers only.";
+    }
 
-if (empty($mothermiddleName) || preg_match('/[0-9]/', $mothermiddleName)) {
-    $errors['mother_middle_name'] = "Mother Middle initial must not contain numbers.";
-}
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = "Invalid email format.";
+    }
+
+    if (empty($telephone) || !preg_match('/^[0-9]+$/', $telephone)) {
+        $errors['telephone_number'] = "Telephone Must contain numbers only.";
+    }
+
 
 
     if (empty($errors)) {
@@ -324,7 +325,6 @@ if (empty($mothermiddleName) || preg_match('/[0-9]/', $mothermiddleName)) {
                         <option value="">--Select--</option>
                         <?php echo $civilstatus; ?>
                     </select>
-                    <span class="error"><?php echo $errors['civil_status'] ?? ''; ?></span>
                     <input type="text" id="others_input" name="others" placeholder="Please specify" style="display: none;" value="<?php echo htmlspecialchars($otherCivil ?? ''); ?>">
                 </div>
 

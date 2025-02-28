@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}
+
+.container {
+    position: relative;
+    max-width: 900px;
+    width: 100%;
+    border-radius: 6px;
+    padding: 30px;
+    margin: 0 15px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center; /* Center the title */
+}
+
+.horizontal-line {
+    width: 30%; /* Set the width of the line */
+    height: 2px; /* Thickness of the line */
+    background-color: #007BFf; /* Color of the line */
+    margin: 0 auto; /* Center the line */
+    margin-bottom: 20px; /* Space below the line */
+}
+
+h3 {
+    color: #333;
+    margin: 20px 0 10px;
+    position: relative;
+}
+
+h3::after {
+    content: '';
+    display: block;
+    width: 100%; /* Adjust the width of the underline */
+    height: 3px; /* Adjust the thickness of the underline */
+    background: #9b59b6; /* Color of the underline */
+    margin-top: 5px;
+    border-radius: 2px; /* Rounded edges for the underline */
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between; /* Space between items */
+    margin-bottom: 10px; /* Space between rows */
+}
+
+.info-label {
+    font-weight: bold; /* Make labels bold */
+    color: #333;
+    flex: 1; /* Allow labels to take equal space */
+}
+
+.info-value {
+    color: #555;
+    flex: 2; /* Allow values to take more space */
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    margin-bottom: 20px; /* Space between sections */
+}
+
+.flex-item {
+    flex: 1 1 30%; /* Allow items to grow and take up to 30% of the row */
+    margin-right: 20px; /* Space between items */
+}
+
+.flex-item:last-child {
+    margin-right: 0; /* Remove margin for the last item */
+}
+
+.button-container {
+    text-align: center; /* Center the button container */
+    margin-top: 20px; /* Space above the button */
+}
+
+.button-container button {
+    background-color: #007BFf; /* Button background color */
+    color: #fff; /* Button text color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+    width: 30%;
+}
+
+.button-container button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
