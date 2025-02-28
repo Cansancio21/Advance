@@ -1,65 +1,65 @@
 <?php
 session_start();
+include 'db.php'; // Include the database connection
 
-if (!isset($_SESSION['form_data']) || !isset($_SESSION['ids'])) {
+if (!isset($_SESSION['form_data'])) {
     header("Location: index.php");
     exit();
 }
 
 // Extracting data from the session
 $formData = $_SESSION['form_data'];
-$ids = $_SESSION['ids']; // Get the IDs from the session
 unset($_SESSION['form_data']); // Clear session data after use
-unset($_SESSION['ids']); // Clear IDs after use
 
-// Extracting individual fields with safety checks
-$uId = $ids['u_id'];
-$bId = $ids['b_id'];
-$hId = $ids['h_id'];
-$cId = $ids['c_id'];
-$pId = $ids['p_id'];
+// Prepare the SQL statements to insert data into the tbl_formation table
+$stmt = $conn->prepare("INSERT INTO tbl_formation(u_lname, u_fname, u_middle, u_dob, u_sex, u_status, u_tax, u_nationality, u_religion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("sssssssss", $formData['last'], $formData['first'], $formData['middle'], $formData['dob'], $formData['sex'], $formData['civilStatus'], $formData['taxId'], $formData['nationality'], $formData['religion']);
+$stmt->execute();
+$uId = $stmt->insert_id; // Get the inserted ID
 
-$lastName = htmlspecialchars($formData['last']);
-$firstName = htmlspecialchars($formData['first']);
-$middleName = htmlspecialchars($formData['middle']);
-$dateOfBirth = htmlspecialchars($formData['dob']);
-$sex = htmlspecialchars($formData['sex']);
-$civilStatus = htmlspecialchars($formData['civilStatus']);
-$taxId = htmlspecialchars($formData['taxId']);
-$nationality = htmlspecialchars($formData['nationality']);
-$religion = htmlspecialchars($formData['religion']);
+// Insert into the birth table
+$stmt = $conn->prepare("INSERT INTO tbl_birth(b_unit, b_blk, b_sn, b_sub, b_brgy, b_city, b_province, b_country, b_zip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("issssssss", $formData['birth']['birth_unit'], $formData['birth']['birth_blk_no'], $formData['birth']['birth_street_name'], $formData['birth']['birth_subdivision'], $formData['birth']['birth_brgy'], $formData['birth']['birth_city'], $formData['birth']['birth_province'], $formData['birth']['birthcountry'], $formData['birth']['birth_zip_code']);
+$stmt->execute();
+$bId = $stmt->insert_id; // Get the inserted ID
 
-$birthunit = htmlspecialchars($formData['birth']['birth_unit']);
-$birthblk = htmlspecialchars($formData['birth']['birth_blk_no']);
-$birthstreetName = htmlspecialchars($formData['birth']['birth_street_name']);
-$birthsubdivision = htmlspecialchars($formData['birth']['birth_subdivision']);
-$birthbarangay = htmlspecialchars($formData['birth']['birth_brgy']);
-$birthcity = htmlspecialchars($formData['birth']['birth_city']);
-$birthprovince = htmlspecialchars($formData['birth']['birth_province']);
-$birthcountry = htmlspecialchars($formData['birth']['birthcountry']);
-$birthzipCode = htmlspecialchars($formData['birth']['birth_zip_code']);
+// Insert into the address table
+$stmt = $conn->prepare("INSERT INTO tbl_address(h_unit, h_blk, h_sn, h_sub, h_brgy, h_city, h_province, h_country, h_zip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("issssssss", $formData['address']['unit'], $formData['address']['blk_no'], $formData['address']['street_name'], $formData['address']['subdivision'], $formData['address']['brgy'], $formData['address']['city'], $formData['address']['province'], $formData['address']['country'], $formData['address']['zip_code']);
+$stmt->execute();
+$hId = $stmt->insert_id; // Get the inserted ID
 
-$unit = htmlspecialchars($formData['address']['unit']);
-$blk = htmlspecialchars($formData['address']['blk_no']);
-$streetName = htmlspecialchars($formData['address']['street_name']);
-$subdivision = htmlspecialchars($formData['address']['subdivision']);
-$barangay = htmlspecialchars($formData['address']['brgy']);
-$city = htmlspecialchars($formData['address']['city']);
-$province = htmlspecialchars($formData['address']['province']);
-$country = htmlspecialchars($formData['address']['country']);
-$zipCode = htmlspecialchars($formData['address']['zip_code']);
+// Insert into the contact table
+$stmt = $conn->prepare("INSERT INTO tbl_contact(c_mobile, c_email, c_tel) VALUES (?, ?, ?)");
+$stmt->bind_param("sss", $formData['contact']['mobile'], $formData['contact']['email'], $formData['contact']['telephone']);
+$stmt->execute();
+$cId = $stmt->insert_id; // Get the inserted ID
 
-$mobile = htmlspecialchars($formData['contact']['mobile']);
-$telephone = htmlspecialchars($formData['contact']['telephone']);
-$email = htmlspecialchars($formData['contact']['email']);
+// Insert into the parents table
+$stmt = $conn->prepare("INSERT INTO tbl_parents(f_lname, f_fname, f_middle, m_lname, m_fname, m_middle) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("ssssss", $formData['father_last_name'], $formData['father_first_name'], $formData['father_middle_initial'], $formData['mother_last_name'], $formData['mother_first_name'], $formData['mother_middle_initial']);
+$stmt->execute();
+$pId = $stmt->insert_id; // Get the inserted ID
 
-$fatherlastName = htmlspecialchars($formData['father_last_name']);
-$fatherfirstName = htmlspecialchars($formData['father_first_name']);
-$fathermiddleName = htmlspecialchars($formData['father_middle_initial']);
+// Close the statement
+$stmt->close();
 
-$motherlastName = htmlspecialchars($formData['mother_last_name']);
-$motherfirstName = htmlspecialchars($formData['mother_first_name']);
-$mothermiddleName = htmlspecialchars($formData['mother_middle_initial']);
+// Fetch all entries from the tbl_formation table
+$formationResult = $conn->query("SELECT * FROM tbl_formation");
+
+// Fetch all entries from the tbl_birth table
+$birthResult = $conn->query("SELECT * FROM tbl_birth");
+
+// Fetch all entries from the tbl_address table
+$addressResult = $conn->query("SELECT * FROM tbl_address");
+
+// Fetch all entries from the tbl_contact table
+$contactResult = $conn->query("SELECT * FROM tbl_contact");
+
+// Fetch all entries from the tbl_parents table
+$parentsResult = $conn->query("SELECT * FROM tbl_parents");
+
+$conn->close(); // Close the database connection
 ?>
 
 <!DOCTYPE html>
@@ -89,18 +89,20 @@ $mothermiddleName = htmlspecialchars($formData['mother_middle_initial']);
                 <th>Nationality</th> 
                 <th>Religion</th>
             </tr>
+            <?php while ($row = $formationResult->fetch_assoc()): ?>
             <tr>
-                <td><?= $uId ?></td>
-                <td><?= $lastName ?></td>
-                <td><?= $firstName ?></td>
-                <td><?= $middleName ?></td>
-                <td><?= $dateOfBirth ?></td>
-                <td><?= $sex ?></td>
-                <td><?= $civilStatus ?></td>
-                <td><?= $taxId ?></td>
-                <td><?= $nationality ?></td>
-                <td><?= $religion ?></td>
+                <td><?= $row['u_id'] ?></td>
+                <td><?= htmlspecialchars($row['u_lname']) ?></td>
+                <td><?= htmlspecialchars($row['u_fname']) ?></td>
+                <td><?= htmlspecialchars($row['u_middle']) ?></td>
+                <td><?= htmlspecialchars($row['u_dob']) ?></td>
+                <td><?= htmlspecialchars($row['u_sex']) ?></td>
+                <td><?= htmlspecialchars($row['u_status']) ?></td>
+                <td><?= htmlspecialchars($row['u_tax']) ?></td>
+                <td><?= htmlspecialchars($row['u_nationality']) ?></td>
+                <td><?= htmlspecialchars($row['u_religion']) ?></td>
             </tr>
+            <?php endwhile; ?>
         </table>
 
         <!-- Place of Birth Table -->
@@ -118,18 +120,20 @@ $mothermiddleName = htmlspecialchars($formData['mother_middle_initial']);
                 <th>Country</th> 
                 <th>Zip Code</th>
             </tr>
+            <?php while ($row = $birthResult->fetch_assoc()): ?>
             <tr>
-                <td><?= $bId ?></td>
-                <td><?= $birthunit ?></td>
-                <td><?= $birthblk ?></td>
-                <td><?= $birthstreetName ?></td>
-                <td><?= $birthsubdivision ?></td>
-                <td><?= $birthbarangay ?></td>
-                <td><?= $birthcity ?></td>
-                <td><?= $birthprovince ?></td>
-                <td><?= $birthcountry ?></td>
-                <td><?= $birthzipCode ?></td>
+                <td><?= $row['b_id'] ?></td>
+                <td><?= htmlspecialchars($row['b_unit']) ?></td>
+                <td><?= htmlspecialchars($row['b_blk']) ?></td>
+                <td><?= htmlspecialchars($row['b_sn']) ?></td>
+                <td><?= htmlspecialchars($row['b_sub']) ?></td>
+                <td><?= htmlspecialchars($row['b_brgy']) ?></td>
+                <td><?= htmlspecialchars($row['b_city']) ?></td>
+                <td><?= htmlspecialchars($row['b_province']) ?></td>
+                <td><?= htmlspecialchars($row['b_country']) ?></td>
+                <td><?= htmlspecialchars($row['b_zip']) ?></td>
             </tr>
+            <?php endwhile; ?>
         </table>
 
         <!-- Home Address Table -->
@@ -147,18 +151,20 @@ $mothermiddleName = htmlspecialchars($formData['mother_middle_initial']);
                 <th>Country</th> 
                 <th>Zip Code</th>
             </tr>
+            <?php while ($row = $addressResult->fetch_assoc()): ?>
             <tr>
-                <td><?= $hId ?></td>
-                <td><?= $unit ?></td>
-                <td><?= $blk ?></td>
-                <td><?= $streetName ?></td>
-                <td><?= $subdivision ?></td>
-                <td><?= $barangay ?></td>
-                <td><?= $city ?></td>
-                <td><?= $province ?></td>
-                <td><?= $country ?></td>
-                <td><?= $zipCode ?></td>
+                <td><?= $row['h_id'] ?></td>
+                <td><?= htmlspecialchars($row['h_unit']) ?></td>
+                <td><?= htmlspecialchars($row['h_blk']) ?></td>
+                <td><?= htmlspecialchars($row['h_sn']) ?></td>
+                <td><?= htmlspecialchars($row['h_sub']) ?></td>
+                <td><?= htmlspecialchars($row['h_brgy']) ?></td>
+                <td><?= htmlspecialchars($row['h_city']) ?></td>
+                <td><?= htmlspecialchars($row['h_province']) ?></td>
+                <td><?= htmlspecialchars($row['h_country']) ?></td>
+                <td><?= htmlspecialchars($row['h_zip']) ?></td>
             </tr>
+            <?php endwhile; ?>
         </table>
 
         <!-- Contact Information Table -->
@@ -170,12 +176,14 @@ $mothermiddleName = htmlspecialchars($formData['mother_middle_initial']);
                 <th>Telephone</th> 
                 <th>Email</th>
             </tr>
+            <?php while ($row = $contactResult->fetch_assoc()): ?>
             <tr>
-                <td><?= $cId ?></td>
-                <td><?= $mobile ?></td>
-                <td><?= $telephone ?></td>
-                <td><?= $email ?></td>
+                <td><?= $row['c_id'] ?></td>
+                <td><?= htmlspecialchars($row['c_mobile']) ?></td>
+                <td><?= htmlspecialchars($row['c_tel']) ?></td>
+                <td><?= htmlspecialchars($row['c_email']) ?></td>
             </tr>
+            <?php endwhile; ?>
         </table>
 
         <!-- Parents Information Table -->
@@ -190,33 +198,23 @@ $mothermiddleName = htmlspecialchars($formData['mother_middle_initial']);
                 <th>Mother's First Name</th> 
                 <th>Mother's Middle Initial</th>
             </tr>
+            <?php while ($row = $parentsResult->fetch_assoc()): ?>
             <tr>
-                <td><?= $pId ?></td>
-                <td><?= $fatherlastName ?></td>
-                <td><?= $fatherfirstName ?></td>
-                <td><?= $fathermiddleName ?></td>
-                <td><?= $motherlastName ?></td>
-                <td><?= $motherfirstName ?></td>
-                <td><?= $mothermiddleName ?></td>
+                <td><?= $row['p_id'] ?></td>
+                <td><?= htmlspecialchars($row['f_lname']) ?></td>
+                <td><?= htmlspecialchars($row['f_fname']) ?></td>
+                <td><?= htmlspecialchars($row['f_middle']) ?></td>
+                <td><?= htmlspecialchars($row['m_lname']) ?></td>
+                <td><?= htmlspecialchars($row['m_fname']) ?></td>
+                <td><?= htmlspecialchars($row['m_middle']) ?></td>
             </tr>
+            <?php endwhile; ?>
         </table>
 
         <!-- Action Buttons -->
         <div class="button-container">
             <form action="index.php" method="get">
-                <button type="submit">Back</button>
-            </form>
-            <form action="index.php" method="get">
-                <button type="submit">Add</button>
-            </form>
-            <form action="index.php" method="get">
-                <button type="submit">Edit</button>
-            </form>
-            <form action="index.php" method="get">
-                <button type="submit">Delete</button>
-            </form>
-            <form action="index.php" method="get">
-                <button type="submit">View Data</button>
+                <button type="submit">Add Another Entry</button>
             </form>
         </div>
     </div>

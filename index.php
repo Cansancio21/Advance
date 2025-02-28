@@ -16,14 +16,13 @@ function generateOptions($optionsArray, $selectedValue = '') {
 }
 
 function calculateAge($dob) {
-    $dob = new DateTime($dob);
+    $dobDate = new DateTime($dob);
     $today = new DateTime();
-    $age = $today->diff($dob);
-    return $age->y; // Return the age in years
+    return $today->diff($dobDate)->y;
 }
 
 $civilstatus = generateOptions($Status);
-$countries = ["Afghanistan", "Albania", "Algeria", /* ... other countries ... */ "Zimbabwe", "Åland Islands"];
+$countries = ["Afghanistan", "Albania", "Algeria", "Zimbabwe", "Åland Islands"];
 $countryOpt = generateOptions($countries);
 
 $errors = [];
@@ -70,137 +69,213 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mothermiddleName = trim($_POST['mother_middle_name'] ?? '');
 
     // Validation logic
-    if (strtotime($dateOfBirth) > time()) {
-        $errors[] = "Date of birth cannot be in the future.";
-    }
-
-    if (empty($errors)) {
-        // Step 1: Insert into the users table
-        $stmt = $conn->prepare("INSERT INTO tbl_formation(u_lname, u_fname, u_middle, u_dob, u_sex, u_status, u_tax, u_nationality, u_religion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssssss", $lastName, $firstName, $middleName, $dateOfBirth, $sex, $civilStatus, $taxId, $nationality, $religion);
-        
-        if ($stmt->execute()) {
-            // Store U_ID
-            $uId = $stmt->insert_id;
-
-            // Step 2: Insert into the birth table
-            $stmt = $conn->prepare("INSERT INTO tbl_birth(b_unit, b_blk, b_sn, b_sub, b_brgy, b_city, b_province, b_country, b_zip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("issssssss", $birthunit, $birthblk, $birthstreetName, $birthsubdivision, $birthbarangay, $birthcity, $birthprovince, $birthcountry, $birthzipCode);
-            if ($stmt->execute()) {
-                // Store B_ID
-                $bId = $stmt->insert_id;
-
-                // Step 4: Insert into the address table
-                $stmt = $conn->prepare("INSERT INTO tbl_address(h_unit, h_blk, h_sn, h_sub, h_brgy, h_city, h_province, h_country, h_zip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("issssssss", $unit, $blk, $streetName, $subdivision, $barangay, $city, $province, $country, $zipCode);
-                if ($stmt->execute()) {
-                    // Store H_ID
-                    $hId = $stmt->insert_id;
-
-                    // Step 5: Insert into the contact table
-                    $stmt = $conn->prepare("INSERT INTO tbl_contact(c_mobile, c_email, c_tel) VALUES (?, ?, ?)");
-                    $stmt->bind_param("sss", $mobile, $email, $telephone);
-                    if ($stmt->execute()) {
-                        // Store C_ID
-                        $cId = $stmt->insert_id;
-
-                        // Step 6: Insert into the parents table
-                        $stmt = $conn->prepare("INSERT INTO tbl_parents(f_lname, f_fname, f_middle, m_lname, m_fname, m_middle) VALUES (?, ?, ?, ?, ?, ?)");
-                        $stmt->bind_param("ssssss", $fatherlastName, $fatherfirstName, $fathermiddleName, $motherlastName, $motherfirstName, $mothermiddleName);
-                        if ($stmt->execute()) {
-                            // Store P_ID
-                            $pId = $stmt->insert_id;
-
-                            // Store all IDs in session
-                            $_SESSION['ids'] = [
-                                'u_id' => $uId,
-                                'b_id' => $bId,
-                                'h_id' => $hId,
-                                'c_id' => $cId,
-                                'p_id' => $pId,
-                            ];
-
-                            $age = calculateAge($dateOfBirth);
-
-                            // Store form data in session
-                            $_SESSION['form_data'] = [
-                                'last' => $lastName,
-                                'first' => $firstName,
-                                'middle' => $middleName,
-                                'dob' => $dateOfBirth,
-                                'age' => $age, // Store age
-                                'sex' => $sex,
-                                'civilStatus' => $civilStatus,
-                                'otherCivil' => $otherCivil,
-                                'taxId' => $taxId,
-                                'nationality' => $nationality,
-                                'religion' => $religion,
-                                'birth' => [
-                                    'birth_unit' => $birthunit,
-                                    'birth_blk_no' => $birthblk,
-                                    'birth_street_name' => $birthstreetName,
-                                    'birth_subdivision' => $birthsubdivision,
-                                    'birth_brgy' => $birthbarangay,
-                                    'birth_city' => $birthcity,
-                                    'birth_province' => $birthprovince,
-                                    'birth_zip_code' => $birthzipCode,
-                                    'birthcountry' => $birthcountry,
-                                ],
-                                'address' => [
-                                    'unit' => $unit,
-                                    'blk_no' => $blk,
-                                    'street_name' => $streetName,
-                                    'subdivision' => $subdivision,
-                                    'brgy' => $barangay,
-                                    'city' => $city,
-                                    'province' => $province,
-                                    'zip_code' => $zipCode,
-                                    'country' => $country,
-                                ],
-                                'contact' => [
-                                    'mobile' => $mobile,
-                                    'telephone' => $telephone,
-                                    'email' => $email,
-                                ],
-                                'father_last_name' => $fatherlastName,
-                                'father_first_name' => $fatherfirstName,
-                                'father_middle_initial' => $fathermiddleName,
-                                'mother_last_name' => $motherlastName,
-                                'mother_first_name' => $motherfirstName,
-                                'mother_middle_initial' => $mothermiddleName,
-                            ];
-
-                            // Redirect to submit.php
-                            header("Location: submit.php");
-                            exit();
-                        } else {
-                            echo "Error in tbl_parents: " . $stmt->error;
-                            exit();
-                        }
-                    } else {
-                        echo "Error in tbl_contact: " . $stmt->error;
-                        exit();
-                    }
-                } else {
-                    echo "Error in tbl_address: " . $stmt->error;
-                    exit();
-                }
-            } else {
-                echo "Error in tbl_birth: " . $stmt->error;
-                exit();
-            }
-        } else {
-            echo "Error in tbl_formation: " . $stmt->error;
-        }
-
-        // Close the statement
-        $stmt->close();
-    }
+    // Validation logic
+ if (empty($lastName) || preg_match('/[0-9]/', $lastName)) {
+    $errors['last_name'] = "Last name must not contain numbers.";
 }
 
-// Close the database connection
-$conn->close();
+if (empty($firstName) || preg_match('/[0-9]/', $firstName)) {
+    $errors['first_name'] = "First name must not contain numbers.";
+}
+
+if (empty($middleName) || preg_match('/[0-9]/', $middleName)) {
+    $errors['middle_initial'] = "Middle initial must not contain numbers.";
+}
+
+if (empty($dateOfBirth)) {
+    $errors['date_of_birth'] = "Date of birth is required.";
+} elseif (strtotime($dateOfBirth) > time()) {
+    $errors['date_of_birth'] = "Date of birth cannot be in the future.";
+} elseif (calculateAge($dateOfBirth) < 18) {
+    $errors['date_of_birth'] = "You must be at least 18 years old.";
+}
+
+if (empty($sex)) {
+    $errors['sex'] = "Select a Gender.";
+}
+
+if (empty($civilStatus)) {
+    $errors['civil_status'] = "Select a Civil Status.";
+} elseif ($civilStatus === 'Others' && empty($otherCivil)) {
+    $errors['others'] = "Please Specify Your Civil Status.";
+}
+
+if (empty($taxId) || !preg_match('/^\d+$/', $taxId)) {
+    $errors['tax_id'] = "Tax ID must contain numbers only.";
+}
+
+if (empty($nationality)) {
+    $errors['nationality'] = "Field is required.";
+}
+
+if (empty($religion)) {
+    $religion = "N/A"; // Default value if not provided
+}
+
+if (empty($birthunit)) {
+    $errors['birth_unit'] = "Field is required.";
+}
+
+if (empty($birthblk)) {
+    $errors['birth_blk_no'] = "Field is required.";
+}
+
+if (empty($birthstreetName)) {
+    $errors['birth_street_name'] = "Field is required.";
+}
+
+if (empty($birthsubdivision)) {
+    $birthsubdivision = "N/A"; // Default value if not provided
+}
+
+if (empty($birthbarangay)) {
+    $birthbarangay = "N/A"; // Default value if not provided
+}
+
+if (empty($birthcity)) {
+    $birthcity = "N/A"; // Default value if not provided
+}
+
+if (empty($birthprovince)) {
+    $birthprovince = "N/A"; // Default value if not provided
+}
+
+if (empty($birthzipCode) || !preg_match('/^\d+$/', $birthzipCode)) {
+    $errors['birth_zip_code'] = " Birthzip Must contain numbers only.";
+}
+
+if (empty($birthcountry)) {
+    $birthcountry = "N/A"; // Default value if not provided
+}
+
+if (empty($unit)) {
+    $errors['unit'] = "Field is required.";
+}
+
+if (empty($blk)) {
+    $errors['blk_no'] = "Field is required.";
+}
+
+if (empty($streetName)) {
+    $errors['street_name'] = "Field is required.";
+}
+
+if (empty($subdivision)) {
+    $subdivision = "N/A"; // Default value if not provided
+}
+
+if (empty($barangay)) {
+    $barangay = "N/A"; // Default value if not provided
+}
+
+if (empty($city)) {
+    $city = "N/A"; // Default value if not provided
+}
+
+if (empty($province)) {
+    $province = "N/A"; // Default value if not provided
+}
+
+if (empty($zipCode) || !preg_match('/^\d+$/', $zipCode)) {
+    $errors['zip_code'] = "Invalid Zip Code. Must contain numbers only.";
+}
+
+if (empty($country)) {
+    $country = "N/A"; // Default value if not provided
+}
+
+if (empty($mobile) || !preg_match('/^\d+$/', $mobile)) {
+    $errors['mobile_phone'] = "Mobile number must contain numbers only.";
+}
+
+if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $errors['email'] = "Invalid email format.";
+}
+
+if (empty($telephone) || !preg_match('/^\d+$/', $telephone)) {
+    $errors['telephone_number'] = "Telephone number must contain numbers only.";
+}
+
+if (empty($fatherlastName) || preg_match('/[0-9]/', $fatherlastName)) {
+    $errors['father_last_name'] = "Father Last name must not contain numbers.";
+}
+
+if (empty($fatherfirstName) || preg_match('/[0-9]/', $fatherfirstName)) {
+    $errors['father_first_name'] = "Father First name must not contain numbers.";
+}
+
+if (empty($fathermiddleName) || preg_match('/[0-9]/', $fathermiddleName)) {
+    $errors['father_middle_name'] = "Father Middle initial must not contain numbers.";
+}
+
+if (empty($motherlastName) || preg_match('/[0-9]/', $motherlastName)) {
+    $errors['mother_last_name'] = "Mother Last name must not contain numbers.";
+}
+
+if (empty($motherfirstName) || preg_match('/[0-9]/', $motherfirstName)) {
+    $errors['mother_first_name'] = "Mother First name must not contain numbers.";
+}
+
+if (empty($mothermiddleName) || preg_match('/[0-9]/', $mothermiddleName)) {
+    $errors['mother_middle_name'] = "Mother Middle initial must not contain numbers.";
+}
+
+
+    if (empty($errors)) {
+        // Store form data in session
+        $_SESSION['form_data'] = [
+            'last' => $lastName,
+            'first' => $firstName,
+            'middle' => $middleName,
+            'dob' => $dateOfBirth,
+            'sex' => $sex,
+            'civilStatus' => $civilStatus,
+            'otherCivil' => $otherCivil,
+            'taxId' => $taxId,
+            'nationality' => $nationality,
+            'religion' => $religion,
+            'birth' => [
+                'birth_unit' => $birthunit,
+                'birth_blk_no' => $birthblk,
+                'birth_street_name' => $birthstreetName,
+                'birth_subdivision' => $birthsubdivision,
+                'birth_brgy' => $birthbarangay,
+                'birth_city' => $birthcity,
+                'birth_province' => $birthprovince,
+                'birth_zip_code' => $birthzipCode,
+                'birthcountry' => $birthcountry,
+            ],
+            'address' => [
+                'unit' => $unit,
+                'blk_no' => $blk,
+                'street_name' => $streetName,
+                'subdivision' => $subdivision,
+                'brgy' => $barangay,
+                'city' => $city,
+                'province' => $province,
+                'zip_code' => $zipCode,
+                'country' => $country,
+            ],
+            'contact' => [
+                'mobile' => $mobile,
+                'telephone' => $telephone,
+                'email' => $email,
+            ],
+            'father_last_name' => $fatherlastName,
+            'father_first_name' => $fatherfirstName,
+            'father_middle_initial' => $fathermiddleName,
+            'mother_last_name' => $motherlastName,
+            'mother_first_name' => $motherfirstName,
+            'mother_middle_initial' => $mothermiddleName,
+        ];
+
+        // Redirect to submit.php
+        header("Location: submit.php");
+        exit();
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
