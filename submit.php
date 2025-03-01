@@ -1,67 +1,67 @@
 <?php
 session_start();
-include 'db.php'; // Include the database connection
+include 'db.php'; 
 
 if (!isset($_SESSION['form_data'])) {
     header("Location: index.php");
     exit();
 }
 
-// Extracting data from the session
-$formData = $_SESSION['form_data'];
-unset($_SESSION['form_data']); // Clear session data after use
 
-// Prepare the SQL statements to insert data into the tbl_formation table
+$formData = $_SESSION['form_data'];
+unset($_SESSION['form_data']); 
+
+
 $stmt = $conn->prepare("INSERT INTO tbl_formation(u_lname, u_fname, u_middle, u_dob, u_sex, u_status, u_tax, u_nationality, u_religion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("sssssssss", $formData['last'], $formData['first'], $formData['middle'], $formData['dob'], $formData['sex'], $formData['civilStatus'], $formData['taxId'], $formData['nationality'], $formData['religion']);
 $stmt->execute();
-$uId = $stmt->insert_id; // Get the inserted ID
+$uId = $stmt->insert_id; 
 
-// Insert into the birth table
+
 $stmt = $conn->prepare("INSERT INTO tbl_birth(b_unit, b_blk, b_sn, b_sub, b_brgy, b_city, b_province, b_country, b_zip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("issssssss", $formData['birth']['birth_unit'], $formData['birth']['birth_blk_no'], $formData['birth']['birth_street_name'], $formData['birth']['birth_subdivision'], $formData['birth']['birth_brgy'], $formData['birth']['birth_city'], $formData['birth']['birth_province'], $formData['birth']['birthcountry'], $formData['birth']['birth_zip_code']);
 $stmt->execute();
-$bId = $stmt->insert_id; // Get the inserted ID
+$bId = $stmt->insert_id; 
 
-// Insert into the address table
+
 $stmt = $conn->prepare("INSERT INTO tbl_address(h_unit, h_blk, h_sn, h_sub, h_brgy, h_city, h_province, h_country, h_zip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("issssssss", $formData['address']['unit'], $formData['address']['blk_no'], $formData['address']['street_name'], $formData['address']['subdivision'], $formData['address']['brgy'], $formData['address']['city'], $formData['address']['province'], $formData['address']['country'], $formData['address']['zip_code']);
 $stmt->execute();
-$hId = $stmt->insert_id; // Get the inserted ID
+$hId = $stmt->insert_id; 
 
-// Insert into the contact table
+
 $stmt = $conn->prepare("INSERT INTO tbl_contact(c_mobile, c_email, c_tel) VALUES (?, ?, ?)");
 $stmt->bind_param("sss", $formData['contact']['mobile'], $formData['contact']['email'], $formData['contact']['telephone']);
 $stmt->execute();
-$cId = $stmt->insert_id; // Get the inserted ID
+$cId = $stmt->insert_id; 
 
-// Insert into the parents table
+
 $stmt = $conn->prepare("INSERT INTO tbl_parents(f_lname, f_fname, f_middle, m_lname, m_fname, m_middle) VALUES (?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("ssssss", $formData['father_last_name'], $formData['father_first_name'], $formData['father_middle_initial'], $formData['mother_last_name'], $formData['mother_first_name'], $formData['mother_middle_initial']);
 $stmt->execute();
-$pId = $stmt->insert_id; // Get the inserted ID
+$pId = $stmt->insert_id; 
 
-// Close the statement
+
 $stmt->close();
 
-// Fetch all entries from the tbl_formation table
+
 $formationResult = $conn->query("SELECT * FROM tbl_formation");
 
-// Fetch all entries from the tbl_birth table
+
 $birthResult = $conn->query("SELECT * FROM tbl_birth");
 
-// Fetch all entries from the tbl_address table
+
 $addressResult = $conn->query("SELECT * FROM tbl_address");
 
-// Fetch all entries from the tbl_contact table
+
 $contactResult = $conn->query("SELECT * FROM tbl_contact");
 
-// Fetch all entries from the tbl_parents table
+
 $parentsResult = $conn->query("SELECT * FROM tbl_parents");
 
 
 
-$conn->close(); // Close the database connection
+$conn->close(); 
 ?>
 
 <html lang="en">
@@ -80,7 +80,6 @@ $conn->close(); // Close the database connection
     <div class="container">
         <h2>Submitted Data</h2>
 
-        <!-- Personal Information Table -->
         <h3>Personal Information</h3>
         <table class="personal">
             <tr>
@@ -120,7 +119,7 @@ $conn->close(); // Close the database connection
             <?php endwhile; ?>
         </table>
 
-        <!-- Place of Birth Table -->
+       
         <h3>Place of Birth</h3>
         <table class="birth">
             <tr>
@@ -160,7 +159,6 @@ $conn->close(); // Close the database connection
             <?php endwhile; ?>
         </table>
 
-        <!-- Home Address Table -->
         <h3>Home Address</h3>
         <table class="address">
             <tr>
@@ -200,7 +198,7 @@ $conn->close(); // Close the database connection
             <?php endwhile; ?>
         </table>
 
-        <!-- Contact Information Table -->
+      
         <h3>Contact Information</h3>
         <table class="contact">
             <tr>
@@ -228,7 +226,6 @@ $conn->close(); // Close the database connection
             <?php endwhile; ?>
         </table>
 
-        <!-- Parents Information Table -->
         <h3>Parents Information</h3>
         <table class="parents">
             <tr>
@@ -262,7 +259,7 @@ $conn->close(); // Close the database connection
             <?php endwhile; ?>
         </table>
 
-        <!-- Action Buttons -->
+     
         <div class="button-container">
             <form action="index.php" method="get">
                 <button type="submit">Add Another Entry</button>

@@ -1,39 +1,38 @@
 <?php
 session_start();
-include 'db.php'; // Include the database connection
+include 'db.php'; 
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-    // Prepare and execute the query to fetch personal data
+  
     $stmt = $conn->prepare("SELECT * FROM tbl_formation WHERE u_id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $formationResult = $stmt->get_result();
     $formationData = $formationResult->fetch_assoc();
 
-    // Prepare and execute the query to fetch birth data
+   
     $stmt = $conn->prepare("SELECT * FROM tbl_birth WHERE b_id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $birthResult = $stmt->get_result();
     $birthData = $birthResult->fetch_assoc();
 
-    // Prepare and execute the query to fetch address data
+
     $stmt = $conn->prepare("SELECT * FROM tbl_address WHERE h_id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $addressResult = $stmt->get_result();
     $addressData = $addressResult->fetch_assoc();
 
-    // Prepare and execute the query to fetch contact data
     $stmt = $conn->prepare("SELECT * FROM tbl_contact WHERE c_id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $contactResult = $stmt->get_result();
     $contactData = $contactResult->fetch_assoc();
 
-    // Prepare and execute the query to fetch parents data
+  
     $stmt = $conn->prepare("SELECT * FROM tbl_parents WHERE p_id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -57,9 +56,9 @@ if (isset($_GET['id'])) {
 <body>
 <div class="container">
         <?php
-        // Check if data exists
+      
         if ($formationData) {
-            // Display the details
+          
             echo "<h2>Details for ID: " . htmlspecialchars($formationData['u_id']) . "</h2>";
             echo "<div class='horizontal-line'></div>";
             echo "<h3>Personal Information</h3>";
@@ -79,7 +78,6 @@ if (isset($_GET['id'])) {
             echo "<div class='flex-item'><span class='info-label'>Religion:</span> <span class='info-value'>" . htmlspecialchars($formationData['u_religion']) . "</span></div>";
             echo "</div>";
 
-            // Display birth information
             if ($birthData) {
                 echo "<h3>Place of Birth</h3>";
                 echo "<div class='flex-container'>";
@@ -99,7 +97,7 @@ if (isset($_GET['id'])) {
                 echo "</div>";
             }
 
-            // Display address information
+    
             if ($addressData) {
                 echo "<h3>Home Address</h3>";
                 echo "<div class='flex-container'>";
@@ -119,7 +117,6 @@ if (isset($_GET['id'])) {
                 echo "</div>";
             }
 
-            // Display contact information
             if ($contactData) {
                 echo "<h3>Contact Information</h3>";
                 echo "<div class='flex-container'>";
@@ -129,7 +126,7 @@ if (isset($_GET['id'])) {
                 echo "</div>";
             }
 
-            // Display parents information
+        
             if ($parentsData) {
                 echo "<h3>Parents Information</h3>";
                 echo "<div class='flex-container'>";

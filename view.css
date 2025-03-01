@@ -27,15 +27,15 @@ body {
 h2 {
     color: #333;
     margin-bottom: 10px;
-    text-align: center; /* Center the title */
+    text-align: center; 
 }
 
 .horizontal-line {
-    width: 30%; /* Set the width of the line */
-    height: 2px; /* Thickness of the line */
-    background-color: #007BFf; /* Color of the line */
-    margin: 0 auto; /* Center the line */
-    margin-bottom: 20px; /* Space below the line */
+    width: 30%; 
+    height: 2px; 
+    background-color: #007BFf; 
+    margin: 0 auto; 
+    margin-bottom: 20px; 
 }
 
 h3 {
@@ -47,39 +47,39 @@ h3 {
 h3::after {
     content: '';
     display: block;
-    width: 100%; /* Adjust the width of the underline */
-    height: 3px; /* Adjust the thickness of the underline */
-    background: #9b59b6; /* Color of the underline */
+    width: 100%; 
+    height: 3px; 
+    background: #9b59b6; 
     margin-top: 5px;
-    border-radius: 2px; /* Rounded edges for the underline */
+    border-radius: 2px; 
 }
 
 .info-row {
     display: flex;
-    justify-content: space-between; /* Space between items */
-    margin-bottom: 10px; /* Space between rows */
+    justify-content: space-between; 
+    margin-bottom: 10px; 
 }
 
 .info-label {
-    font-weight: bold; /* Make labels bold */
+    font-weight: bold; 
     color: #333;
-    flex: 1; /* Allow labels to take equal space */
+    flex: 1; 
 }
 
 .info-value {
     color: #555;
-    flex: 2; /* Allow values to take more space */
+    flex: 2; 
 }
 
 .flex-container {
     display: flex;
-    flex-wrap: wrap; /* Allow items to wrap to the next line */
-    margin-bottom: 20px; /* Space between sections */
+    flex-wrap: wrap; 
+    margin-bottom: 20px; 
 }
 
 .flex-item {
-    flex: 1 1 30%; /* Allow items to grow and take up to 30% of the row */
-    margin-right: 20px; /* Space between items */
+    flex: 1 1 30%; 
+    margin-right: 20px; 
 }
 
 .flex-item:last-child {

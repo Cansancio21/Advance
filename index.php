@@ -223,7 +223,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     if (empty($errors)) {
-        // Store form data in session
+        
         $_SESSION['form_data'] = [
             'last' => $lastName,
             'first' => $firstName,
@@ -270,7 +270,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'mother_middle_initial' => $mothermiddleName,
         ];
 
-        // Redirect to submit.php
+    
         header("Location: submit.php");
         exit();
     }

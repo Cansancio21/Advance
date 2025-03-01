@@ -69,16 +69,11 @@ tr:hover {
 }
 
 button {
-    width: 150px; /* Set a fixed width for buttons */
-    height: 45px; /* Set a fixed height for buttons */
-    margin: 10px; /* Space between buttons */
-    border: none;
-    outline: none;
-    color: #fff;
-    border-radius: 5px;
-    background-color: #4070f4; /* Original background color */
-    transition: background-color 0.3s linear; /* Smooth transition for background color */
-    cursor: pointer;
+    color: white; 
+    text-decoration: none; 
+    padding: 5px 10px; 
+    border-radius: 5px; 
+    background-color: blue;
 }
 
 button:hover {
@@ -86,18 +81,6 @@ button:hover {
 }
 
  
- .delete-link {
-    color: white; 
-    background-color: #f44336;
-    padding: 5px 10px;
-    text-decoration: none; 
-    border-radius: 5px; 
-    display: inline-block; 
-}
-
-.delete-link:hover {
-    background-color: #d32f2f; 
-}
 
 
 .edit-link {
