@@ -1,5 +1,5 @@
 <?php
-class edit {
+class EditModel {
     private $conn;
     private $id;
     private $formationData;
@@ -8,6 +8,7 @@ class edit {
     private $contactData;
     private $parentsData;
 
+  
     public function __construct($conn, $id) {
         $this->conn = $conn;
         $this->id = intval($id); // Ensure ID is an integer
@@ -50,7 +51,6 @@ class edit {
         $this->parentsData = $stmt->get_result()->fetch_assoc();
         $stmt->close();
     }
-
     public function updateData($postData) {
         // Update formation data
         $stmt = $this->conn->prepare("UPDATE tbl_formation SET u_lname = ?, u_fname = ?, u_middle = ?, u_dob = ?, u_sex = ?, u_status = ?, u_tax = ?, u_nationality = ?, u_religion = ? WHERE u_id = ?");
@@ -68,7 +68,7 @@ class edit {
         );
         $stmt->execute();
         $stmt->close();
-
+    
         // Update birth data
         $stmt = $this->conn->prepare("UPDATE tbl_birth SET b_unit = ?, b_blk = ?, b_sn = ?, b_sub = ?, b_brgy = ?, b_city = ?, b_province = ?, b_country = ?, b_zip = ? WHERE b_id = ?");
         $stmt->bind_param("issssssssi", 
@@ -79,13 +79,13 @@ class edit {
             $postData['birth_brgy'], 
             $postData['birth_city'], 
             $postData['birth_province'], 
-            $postData['birthcountry'], 
+            $postData['birthcountry'], // Ensure this key matches the form input name
             $postData['birth_zip_code'], 
             $this->id
         );
         $stmt->execute();
         $stmt->close();
-
+    
         // Update address data
         $stmt = $this->conn->prepare("UPDATE tbl_address SET h_unit = ?, h_blk = ?, h_sn = ?, h_sub = ?, h_brgy = ?, h_city = ?, h_province = ?, h_country = ?, h_zip = ? WHERE h_id = ?");
         $stmt->bind_param("issssssssi", 
@@ -96,13 +96,13 @@ class edit {
             $postData['brgy'], 
             $postData['city'], 
             $postData['province'], 
-            $postData['country'], 
+            $postData['country'], // Ensure this key matches the form input name
             $postData['zip_code'], 
             $this->id
         );
         $stmt->execute();
         $stmt->close();
-
+    
         // Update contact data
         $stmt = $this->conn->prepare("UPDATE tbl_contact SET c_mobile = ?, c_tel = ?, c_email = ? WHERE c_id = ?");
         $stmt->bind_param("sssi", 
@@ -113,7 +113,7 @@ class edit {
         );
         $stmt->execute();
         $stmt->close();
-
+    
         // Update parents data
         $stmt = $this->conn->prepare("UPDATE tbl_parents SET f_lname = ?, f_fname = ?, f_middle = ?, m_lname = ?, m_fname = ?, m_middle = ? WHERE p_id = ?");
         $stmt->bind_param("ssssssi", 
@@ -128,29 +128,28 @@ class edit {
         $stmt->execute();
         $stmt->close();
     }
+public function getFormationData() {
+return $this->formationData;
+}
 
-    public function getFormationData() {
-        return $this->formationData;
-    }
+public function getBirthData() {
+return $this->birthData;
+}
 
-    public function getBirthData() {
-        return $this->birthData;
-    }
+public function getAddressData() {
+return $this->addressData;
+}
 
-    public function getAddressData() {
-        return $this->addressData;
-    }
+public function getContactData() {
+return $this->contactData;
+}
 
-    public function getContactData() {
-        return $this->contactData;
-    }
+public function getParentsData() {
+return $this->parentsData;
+}
 
-    public function getParentsData() {
-        return $this->parentsData;
-    }
-
-    public function closeConnection() {
-        $this->conn->close();
-    }
+public function closeConnection() {
+$this->conn->close();
+}
 }
 ?>

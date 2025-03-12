@@ -1,8 +1,5 @@
 <?php
-session_start();
-include 'db.php'; // Ensure this file contains the database connection code
-
-class DataDeleter {
+class DeleteModel {
     private $conn;
     private $id;
 
@@ -34,26 +31,12 @@ class DataDeleter {
 
             // Commit the transaction
             $this->conn->commit();
-            $_SESSION['message'] = "Record deleted successfully.";
+            return true; // Indicate success
         } catch (Exception $e) {
             // Rollback the transaction if something failed
             $this->conn->rollback();
-            $_SESSION['error'] = "Error deleting record: " . $e->getMessage();
+            return false; // Indicate failure
         }
     }
 }
-
-// Check if the delete request is made
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id'])) {
-    $id = $_POST['id']; // Get the ID to delete
-    $dataDeleter = new DataDeleter($conn, $id);
-    $dataDeleter->deleteRecord();
-}
-
-// Redirect back to the submit page
-header("Location: submit.php");
-exit();
-
-// Close the connection
-$conn->close();
 ?>

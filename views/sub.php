@@ -1,22 +1,10 @@
-<?php
-session_start();
-include 'db.php'; 
-include 'SubmitClass.php'; // Include the DataSubmission class
-
-$dataSubmission = new submit($conn);
-$dataSubmission->processFormData();
-$data = $dataSubmission->fetchData();
-$dataSubmission->closeConnection();
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submitted Data</title>
-    <link rel="stylesheet" href="submit.css">
+    <link rel="stylesheet" href="../submit.css">
     <script>
         function viewData(id) {
             window.location.href = 'view.php?id=' + id;
@@ -62,9 +50,7 @@ $dataSubmission->closeConnection();
                     </form>
                     <form action="edit.php" method="GET" style="display: inline;">
                         <input type="hidden" name="id" value="<?= $row['u_id'] ?>">
-                        <button type="submit" class="subBtn">
-                            <div class="btnText">Update</div>
-                        </button>
+                        <button type="submit" class="subBtn">Update</button>
                     </form>
                     <form action="delete.php" method="post" style="display:inline;">
                         <input type="hidden" name="id" value="<?= $row['u_id'] ?>">
@@ -110,9 +96,7 @@ $dataSubmission->closeConnection();
                     </form>
                     <form action="edit.php" method="GET" style="display: inline;">
                         <input type="hidden" name="id" value="<?= $row['b_id'] ?>">
-                        <button type="submit" class="subBtn">
-                            <div class="btnText">Update</div>
-                        </button>
+                        <button type="submit" class="subBtn">Update</button>
                     </form>
                     <form action="delete.php" method="post" style="display:inline;">
                         <input type="hidden" name="id" value="<?= $row['b_id'] ?>">
@@ -158,9 +142,7 @@ $dataSubmission->closeConnection();
                     </form>
                     <form action="edit.php" method="GET" style="display: inline;">
                         <input type="hidden" name="id" value="<?= $row['h_id'] ?>">
-                        <button type="submit" class="subBtn">
-                            <div class="btnText">Update</div>
-                        </button>
+                        <button type="submit" class="subBtn">Update</button>
                     </form>
                     <form action="delete.php" method="post" style="display:inline;">
                         <input type="hidden" name="id" value="<?= $row['h_id'] ?>">
@@ -187,16 +169,14 @@ $dataSubmission->closeConnection();
                 <td><?= htmlspecialchars($row['c_tel']) ?></td>
                 <td><?= htmlspecialchars($row['c_email']) ?></td>
                 <td>
-                    <form action="view_one.php" method="GET" style="display: inline;">
+                <form action="view_one.php" method="GET" style="display: inline;">
                         <input type="hidden" name="table" value="contact">
                         <input type="hidden" name="id" value="<?= $row['c_id'] ?>">
                         <button type="submit" class="subBtn">View Contact</button>
                     </form>
                     <form action="edit.php" method="GET" style="display: inline;">
                         <input type="hidden" name="id" value="<?= $row['c_id'] ?>">
-                        <button type="submit" class="subBtn">
-                            <div class="btnText">Update</div>
-                        </button>
+                        <button type="submit" class="subBtn">Update</button>
                     </form>
                     <form action="delete.php" method="post" style="display:inline;">
                         <input type="hidden" name="id" value="<?= $row['c_id'] ?>">
@@ -236,9 +216,7 @@ $dataSubmission->closeConnection();
                     </form>
                     <form action="edit.php" method="GET" style="display: inline;">
                         <input type="hidden" name="id" value="<?= $row['p_id'] ?>">
-                        <button type="submit" class="subBtn">
-                            <div class="btnText">Update</div>
-                        </button>
+                        <button type="submit" class="subBtn">Update</button>
                     </form>
                     <form action="delete.php" method="post" style="display:inline;">
                         <input type="hidden" name="id" value="<?= $row['p_id'] ?>">

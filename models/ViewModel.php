@@ -1,5 +1,5 @@
 <?php
-class  view_one{
+class ViewModel {
     private $conn;
     private $table;
     private $id;

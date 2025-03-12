@@ -1,5 +1,5 @@
 <?php
-class submit {
+class SubmitModel {
     private $conn;
     private $formData;
 
@@ -15,15 +15,10 @@ class submit {
 
         unset($_SESSION['form_data']); 
 
-        // Insert data into tbl_formation
         $this->insertFormation();
-        // Insert data into tbl_birth
         $this->insertBirth();
-        // Insert data into tbl_address
         $this->insertAddress();
-        // Insert data into tbl_contact
         $this->insertContact();
-        // Insert data into tbl_parents
         $this->insertParents();
     }
 
@@ -40,7 +35,10 @@ class submit {
             $this->formData['nationality'], 
             $this->formData['religion']
         );
-        $stmt->execute();
+
+        if (!$stmt->execute()) {
+            throw new Exception("Error inserting formation data: " . $stmt->error);
+        }
         $stmt->close();
     }
 
@@ -54,10 +52,13 @@ class submit {
             $this->formData['birth']['birth_brgy'], 
             $this->formData['birth']['birth_city'], 
             $this->formData['birth']['birth_province'], 
-            $this->formData['birth']['birthcountry'], 
+            $this->formData['birth']['birthcountry'], // Change this line
             $this->formData['birth']['birth_zip_code']
         );
-        $stmt->execute();
+    
+        if (!$stmt->execute()) {
+            throw new Exception("Error inserting birth data: " . $stmt->error);
+        }
         $stmt->close();
     }
 
@@ -74,7 +75,10 @@ class submit {
             $this->formData['address']['country'], 
             $this->formData['address']['zip_code']
         );
-        $stmt->execute();
+
+        if (!$stmt->execute()) {
+            throw new Exception("Error inserting address data: " . $stmt->error);
+        }
         $stmt->close();
     }
 
@@ -85,7 +89,10 @@ class submit {
             $this->formData['contact']['email'], 
             $this->formData['contact']['telephone']
         );
-        $stmt->execute();
+
+        if (!$stmt->execute()) {
+            throw new Exception("Error inserting contact data: " . $stmt->error);
+        }
         $stmt->close();
     }
 
@@ -99,7 +106,10 @@ class submit {
             $this->formData['mother']['first_name'], 
             $this->formData['mother']['middle_name']
         );
-        $stmt->execute();
+
+        if (!$stmt->execute()) {
+            throw new Exception("Error inserting parents data: " . $stmt->error);
+        }
         $stmt->close();
     }
 

@@ -1,23 +1,10 @@
-<?php
-session_start();
-include 'db.php'; 
-include 'indexClass.php'; // Include the FormHandler class
-
-$formHandler = new index();
-$formHandler->handleRequest();
-$errors = $formHandler->getErrors();
-$formData = $formHandler->getFormData();
-$civilStatusOptions = $formHandler->getCivilStatusOptions();
-$countryOptions = $formHandler->getCountryOptions();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InForMaTion</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 <div class="container">
@@ -56,7 +43,11 @@ $countryOptions = $formHandler->getCountryOptions();
                 <div class="Select">
                     <label for="civil_status">Civil Status:</label>
                     <select id="civil_status" name="civil_status" onchange="toggleOthersField()">
-                        <?php echo $civilStatusOptions; ?>
+                        <option value="Single" <?php echo (isset($formData['civil_status']) && $formData['civil_status'] == 'Single') ? 'selected' : ''; ?>>Single</option>
+                        <option value="Married" <?php echo (isset($formData['civil_status']) && $formData['civil_status'] == 'Married') ? 'selected' : ''; ?>>Married</option>
+                        <option value="Widowed" <?php echo (isset($formData['civil_status']) && $formData['civil_status'] == 'Widowed') ? 'selected' : ''; ?>>Widowed</option>
+                        <option value="Legally Separated" <?php echo (isset($formData['civil_status']) && $formData['civil_status'] == 'Legally Separated') ? 'selected' : ''; ?>>Legally Separated</option>
+                        <option value="Others" <?php echo (isset($formData['civil_status']) && $formData['civil_status'] == 'Others') ? 'selected' : ''; ?>>Others</option>
                     </select>
                     <input type="text" id="others_input" name="others" placeholder="Please specify" style="display: none;" value="<?php echo htmlspecialchars($formData['others'] ?? ''); ?>">
                 </div>
@@ -77,98 +68,98 @@ $countryOptions = $formHandler->getCountryOptions();
                 </div>
 
                 <h2>Place of Birth</h2>
-<div class="place">
-    <div class="input-place">
-        <label for="birth_unit">Unit No. & Bldg. Name:</label>
-        <input type="text" name="birth_unit" id="birth_unit" value="<?php echo htmlspecialchars($formData['birth']['birth_unit'] ?? ''); ?>">
-    </div>
-    <div class="input-place">
-        <label for="birth_blk_no">House/Lot & Blk. No:</label>
-        <input type="text" name="birth_blk_no" id="birth_blk_no" value="<?php echo htmlspecialchars($formData['birth']['birth_blk_no'] ?? ''); ?>">
-    </div>
-    <div class="input-place">
-        <label for="birth_street_name">Street Name:</label>
-        <input type="text" name="birth_street_name" id="birth_street_name" value="<?php echo htmlspecialchars($formData['birth']['birth_street_name'] ?? ''); ?>">
-    </div>
-    <div class="input-place">
-        <label for="birth_subdivision">Subdivision:</label>
-        <input type="text" name="birth_subdivision" id="birth_subdivision" value="<?php echo htmlspecialchars($formData['birth']['birth_subdivision'] ?? ''); ?>">
-    </div>
-</div>
+                <div class="place">
+                    <div class="input-place">
+                        <label for="birth_unit">Unit No. & Bldg. Name:</label>
+                        <input type="text" name="birth_unit" id="birth_unit" value="<?php echo htmlspecialchars($formData['birth']['birth_unit'] ?? ''); ?>">
+                    </div>
+                    <div class="input-place">
+                        <label for="birth_blk_no">House/Lot & Blk. No:</label>
+                        <input type="text" name="birth_blk_no" id="birth_blk_no" value="<?php echo htmlspecialchars($formData['birth']['birth_blk_no'] ?? ''); ?>">
+                    </div>
+                    <div class="input-place">
+                        <label for="birth_street_name">Street Name:</label>
+                        <input type="text" name="birth_street_name" id="birth_street_name" value="<?php echo htmlspecialchars($formData['birth']['birth_street_name'] ?? ''); ?>">
+                    </div>
+                    <div class="input-place">
+                        <label for="birth_subdivision">Subdivision:</label>
+                        <input type="text" name="birth_subdivision" id="birth_subdivision" value="<?php echo htmlspecialchars($formData['birth']['birth_subdivision'] ?? ''); ?>">
+                    </div>
+                </div>
 
-<div class="home">
-    <div class="input-home">
-        <label for="birth_brgy">Brgy/District/Locality:</label>
-        <input type="text" name="birth_brgy" id="birth_brgy" value="<?php echo htmlspecialchars($formData['birth']['birth_brgy'] ?? ''); ?>">
-    </div>
-    <div class="input-home">
-        <label for="birth_city">City:</label>
-        <input type="text" name="birth_city" id="birth_city" value="<?php echo htmlspecialchars($formData['birth']['birth_city'] ?? ''); ?>">
-    </div>
-    <div class="input-home">
-        <label for="birth_province">Province:</label>
-        <input type="text" name="birth_province" id="birth_province" value="<?php echo htmlspecialchars($formData['birth']['birth_province'] ?? ''); ?>">
-    </div>
-    <div class="input-home">
-        <label for="birth_zip_code">Zipcode:</label>
-        <input type="text" name="birth_zip_code" id="birth_zip_code" value="<?php echo htmlspecialchars($formData['birth']['birth_zip_code'] ?? ''); ?>">
-    </div>
-</div>
+                <div class="home">
+                    <div class="input-home">
+                        <label for="birth_brgy">Brgy/District/Locality:</label>
+                        <input type="text" name="birth_brgy" id="birth_brgy" value="<?php echo htmlspecialchars($formData['birth']['birth_brgy'] ?? ''); ?>">
+                    </div>
+                    <div class="input-home">
+                        <label for="birth_city">City:</label>
+                        <input type="text" name="birth_city" id="birth_city" value="<?php echo htmlspecialchars($formData['birth']['birth_city'] ?? ''); ?>">
+                    </div>
+                    <div class="input-home">
+                        <label for="birth_province">Province:</label>
+                        <input type="text" name="birth_province" id="birth_province" value="<?php echo htmlspecialchars($formData['birth']['birth_province'] ?? ''); ?>">
+                    </div>
+                    <div class="input-home">
+                        <label for="birth_zip_code">Zipcode:</label>
+                        <input type="text" name="birth_zip_code" id="birth_zip_code" value="<?php echo htmlspecialchars($formData['birth']['birth_zip_code'] ?? ''); ?>">
+                    </div>
+                </div>
 
-<div class="country">
+                <div class="country">
     <label>Country</label>
     <select name="birthcountry" id="birthcountry" required>
-        <option value="" disabled selected>select</option>
-        <?php echo $countryOptions; // Use the country options generated from the method ?>
+        <option value="" disabled selected>Select</option>
+        <?php echo $countryOptions; ?>
     </select>
 </div>
 
-<h2>Home Address</h2>
-<div class="place">
-    <div class="input-place">
-        <label>RM/FLR/Unit No. & Bldg.Name</label>
-        <input type="text" name="unit" placeholder="Enter Unit" required value="<?php echo htmlspecialchars($formData['address']['unit'] ?? ''); ?>">
-    </div>
-    <div class="input-place">
-        <label>House/Lot & Blk.No</label>
-        <input type="text" name="blk_no" placeholder="Enter Blk.No" required value="<?php echo htmlspecialchars($formData['address']['blk_no'] ?? ''); ?>">
-    </div>
-    <div class="input-place">
-        <label>Street Name</label>
-        <input type="text" name="street_name" placeholder="Street Name" required value="<?php echo htmlspecialchars($formData['address']['street_name'] ?? ''); ?>">
-    </div>
-    <div class="input-place">
-        <label>Subdivision</label>
-        <input type="text" name="subdivision" placeholder="Subdivision" required value="<?php echo htmlspecialchars($formData['address']['subdivision'] ?? ''); ?>">
-    </div>
-</div>
+                <h2>Home Address</h2>
+                <div class="place">
+                    <div class="input-place">
+                        <label>RM/FLR/Unit No. & Bldg. Name</label>
+                        <input type="text" name="unit" placeholder="Enter Unit" required value="<?php echo htmlspecialchars($formData['address']['unit'] ?? ''); ?>">
+                    </div>
+                    <div class="input-place">
+                        <label>House/Lot & Blk. No</label>
+                        <input type="text" name="blk_no" placeholder="Enter Blk.No" required value="<?php echo htmlspecialchars($formData['address']['blk_no'] ?? ''); ?>">
+                    </div>
+                    <div class="input-place">
+                        <label>Street Name</label>
+                        <input type="text" name="street_name" placeholder="Street Name" required value="<?php echo htmlspecialchars($formData['address']['street_name'] ?? ''); ?>">
+                    </div>
+                    <div class="input-place">
+                        <label>Subdivision</label>
+                        <input type="text" name="subdivision" placeholder="Subdivision" required value="<?php echo htmlspecialchars($formData['address']['subdivision'] ?? ''); ?>">
+                    </div>
+                </div>
 
-<div class="home">
-    <div class="input-home">
-        <label>Brgy/District/Locality</label>
-        <input type="text" name="brgy" placeholder="Enter Brgy" required value="<?php echo htmlspecialchars($formData['address']['brgy'] ?? ''); ?>">
-    </div>
-    <div class="input-home">
-        <label>City/Municipality</label>
-        <input type="text" name="city" placeholder="Enter City" required value="<?php echo htmlspecialchars($formData['address']['city'] ?? ''); ?>">
-    </div>
-    <div class="input-home">
-        <label>Province</label>
-        <input type="text" name="province" placeholder="Province" required value="<?php echo htmlspecialchars($formData['address']['province'] ?? ''); ?>">
-    </div>
-    <div class="input-home">
-        <label for="zip_code">Zipcode:</label>
-        <input type="text" name="zip_code" id="zip_code" value="<?php echo htmlspecialchars($formData['address']['zip_code'] ?? ''); ?>">
-    </div>
-</div>
+                <div class="home">
+                    <div class="input-home">
+                        <label>Brgy/District/Locality</label>
+                        <input type="text" name="brgy" placeholder="Enter Brgy" required value="<?php echo htmlspecialchars($formData['address']['brgy'] ?? ''); ?>">
+                    </div>
+                    <div class="input-home">
+                        <label>City/Municipality</label>
+                        <input type="text" name="city" placeholder="Enter City" required value="<?php echo htmlspecialchars($formData['address']['city'] ?? ''); ?>">
+                    </div>
+                    <div class="input-home">
+                        <label>Province</label>
+                        <input type="text" name="province" placeholder="Province" required value="<?php echo htmlspecialchars($formData['address']['province'] ?? ''); ?>">
+                    </div>
+                    <div class="input-home">
+                        <label for="zip_code">Zipcode:</label>
+                        <input type="text" name="zip_code" id="zip_code" value="<?php echo htmlspecialchars($formData['address']['zip_code'] ?? ''); ?>">
+                    </div>
+                </div>
 
-<div class="country">
-    <label>Country</label>
-    <select name="country" id="country" required>
-        <option value="" disabled selected>select</option>
-        <?php echo $countryOptions; // Use the country options generated from the method ?>
-    </select>
-</div>
+                <div class="country">
+                    <label>Country</label>
+                    <select name="country" id="country" required>
+                        <option value="" disabled selected>Select</option>
+                        <?php echo $countryOptions; ?>
+                    </select>
+                </div>
 
                 <div class="number">
                     <div class="input-number">
@@ -196,7 +187,7 @@ $countryOptions = $formHandler->getCountryOptions();
                         <input type="text" name="father_first_name" placeholder="Enter First Name" value="<?php echo htmlspecialchars($formData['father']['first_name'] ?? ''); ?>">
                     </div>
                     <div class="input-type">
-                        <label>Middle Name</label>
+                    <label>Middle Name</label>
                         <input type="text" name="father_middle_name" placeholder="Enter Middle Name" value="<?php echo htmlspecialchars($formData['father']['middle_name'] ?? ''); ?>">
                     </div>
                 </div>
@@ -216,12 +207,12 @@ $countryOptions = $formHandler->getCountryOptions();
                         <input type="text" name="mother_middle_name" placeholder="Enter Middle Name" value="<?php echo htmlspecialchars($formData['mother']['middle_name'] ?? ''); ?>">
                     </div>
                 </div>
-                  
+
                 <div class="buttons">
                     <div class="error-container">
                         <?php if (!empty($errors)): ?>
                             <div class="error">
-                                <?php echo implode('<br>', $errors);?>
+                                <?php echo implode('<br>', $errors); ?>
                             </div>
                         <?php endif; ?>
                         <div class="buttons">
