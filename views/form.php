@@ -97,17 +97,10 @@
                         <input type="text" name="birth_city" id="birth_city" value="<?php echo htmlspecialchars($formData['birth']['birth_city'] ?? ''); ?>">
                     </div>
                     <div class="input-home">
-    <label for="birth_province">Province:</label>
-    <select name="birth_province" id="birth_province" required>
-        <option value="" disabled selected>Select Province</option>
-        <option value="Bohol" <?php echo (isset($formData['birth']['birth_province']) && $formData['birth']['birth_province'] == 'Bohol') ? 'selected' : ''; ?>>Bohol</option>
-        <option value="Cebu" <?php echo (isset($formData['birth']['birth_province']) && $formData['birth']['birth_province'] == 'Cebu') ? 'selected' : ''; ?>>Cebu</option>
-        <option value="Iloilo" <?php echo (isset($formData['birth']['birth_province']) && $formData['birth']['birth_province'] == 'Iloilo') ? 'selected' : ''; ?>>Iloilo</option>
-        <option value="Siquijor" <?php echo (isset($formData['birth']['birth_province']) && $formData['birth']['birth_province'] == 'Siquijor') ? 'selected' : ''; ?>>Siquijor</option>
-        <option value="Leyte" <?php echo (isset($formData['birth']['birth_province']) && $formData['birth']['birth_province'] == 'Leyte') ? 'selected' : ''; ?>>Leyte</option>
-        <option value="Cavite" <?php echo (isset($formData['birth']['birth_province']) && $formData['birth']['birth_province'] == 'Cavite') ? 'selected' : ''; ?>>Cavite</option>
-    </select>
-</div>
+                        <label for="birth_province">Province:</label>
+                        <input type="text" name="birth_province" id="birth_province" value="<?php echo htmlspecialchars($formData['birth']['birth_province'] ?? ''); ?>">
+                    </div>
+
                     <div class="input-home">
                         <label for="birth_zip_code">Zipcode:</label>
                         <input type="text" name="birth_zip_code" id="birth_zip_code" value="<?php echo htmlspecialchars($formData['birth']['birth_zip_code'] ?? ''); ?>">
@@ -152,17 +145,11 @@
                         <input type="text" name="city" placeholder="Enter City" required value="<?php echo htmlspecialchars($formData['address']['city'] ?? ''); ?>">
                     </div>
                     <div class="input-home">
-    <label for="province">Province</label>
-    <select name="province" id="province" required>
-        <option value="" disabled selected>Select Province</option>
-        <option value="Bohol" <?php echo (isset($formData['address']['province']) && $formData['address']['province'] == 'Bohol') ? 'selected' : ''; ?>>Bohol</option>
-        <option value="Cebu" <?php echo (isset($formData['address']['province']) && $formData['address']['province'] == 'Cebu') ? 'selected' : ''; ?>>Cebu</option>
-        <option value="Iloilo" <?php echo (isset($formData['address']['province']) && $formData['address']['province'] == 'Iloilo') ? 'selected' : ''; ?>>Iloilo</option>
-        <option value="Siquijor" <?php echo (isset($formData['address']['province']) && $formData['address']['province'] == 'Siquijor') ? 'selected' : ''; ?>>Siquijor</option>
-        <option value="Leyte" <?php echo (isset($formData['address']['province']) && $formData['address']['province'] == 'Leyte') ? 'selected' : ''; ?>>Leyte</option>
-        <option value="Cavite" <?php echo (isset($formData['address']['province']) && $formData['address']['province'] == 'Cavite') ? 'selected' : ''; ?>>Cavite</option>
-    </select>
-</div>
+                        <label>Province</label>
+                        <input type="text" name="province" placeholder="Province" required value="<?php echo htmlspecialchars($formData['address']['province'] ?? ''); ?>">
+                    </div>
+
+
                     <div class="input-home">
                         <label for="zip_code">Zipcode:</label>
                         <input type="text" name="zip_code" id="zip_code" value="<?php echo htmlspecialchars($formData['address']['zip_code'] ?? ''); ?>">
