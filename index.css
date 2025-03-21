@@ -374,6 +374,8 @@ h3{
     background-color: #f0f0f0;
   }
 
+
+
   
 .Select{
     margin-left: 230px;
@@ -403,6 +405,12 @@ h3{
 .error {
     color: red;
     margin-right: 10px; 
+}
+
+
+/* General styles for input fields and select elements */
+.input-home {
+    margin-bottom: 15px; /* Space between fields */
 }
 
 .input-home label {
